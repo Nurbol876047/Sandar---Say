@@ -1,8 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import ExerciseShell from '../components/ExerciseShell'
 import { Ball } from '../components/BallScene'
 import { useSettings } from '../context/SettingsContext'
+import { useNumberVoice } from '../hooks/useNumberVoice'
 import { isEven, shuffle } from '../utils/math'
 import { playCorrect, playTry } from '../utils/sound'
 import type { ExerciseResult } from '../types'
@@ -17,11 +18,17 @@ export default function OddEvenExercise({ onFinish, onBack }: { onFinish: (r: Ex
   const [index, setIndex] = useState(0)
   const [answer, setAnswer] = useState<'even' | 'odd' | null>(null)
   const [correctCount, setCorrectCount] = useState(0)
+  const { speakNumber } = useNumberVoice()
 
   const n = sequence[index]
   const even = isEven(n)
   const pairs = Math.floor(n / 2)
   const hasOdd = n % 2 === 1
+
+  useEffect(() => {
+    speakNumber(n)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index])
 
   const select = (choice: 'even' | 'odd') => {
     if (answer) return

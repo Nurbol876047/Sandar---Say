@@ -6,6 +6,7 @@ import BallScene from '../components/BallScene'
 import CameraPanel from '../components/CameraPanel'
 import { useSettings } from '../context/SettingsContext'
 import { useHandTracking } from '../hooks/useHandTracking'
+import { useNumberVoice } from '../hooks/useNumberVoice'
 import { buildChoices, shuffle } from '../utils/math'
 import { playClick, playCorrect, playTry } from '../utils/sound'
 import type { ExerciseResult } from '../types'
@@ -44,6 +45,7 @@ export default function CountingExercise({ onFinish, onBack }: { onFinish: (r: E
   const [correctCount, setCorrectCount] = useState(0)
 
   const tracking = useHandTracking()
+  const { speakNumber } = useNumberVoice()
   const wasOpen = useRef(false)
   const lastThrowAt = useRef(0)
 
@@ -57,11 +59,10 @@ export default function CountingExercise({ onFinish, onBack }: { onFinish: (r: E
     lastThrowAt.current = now
     playClick(sound)
     setBounce((b) => b + 1)
-    setCount((c) => {
-      const next = mode === 'up' ? c + 1 : c - 1
-      if (next === target) setThrowDone(true)
-      return next
-    })
+    const next = mode === 'up' ? count + 1 : count - 1
+    setCount(next)
+    speakNumber(next)
+    if (next === target) setThrowDone(true)
   }
 
   useEffect(() => {
@@ -93,6 +94,11 @@ export default function CountingExercise({ onFinish, onBack }: { onFinish: (r: E
     setCorrectCount(0)
   }
 
+  useEffect(() => {
+    if (phase === 'quiz' && quiz[qIndex]) speakNumber(quiz[qIndex].n)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, qIndex])
+
   const checkAnswer = () => {
     if (selected === null) return
     const q = quiz[qIndex]
@@ -101,6 +107,7 @@ export default function CountingExercise({ onFinish, onBack }: { onFinish: (r: E
       setCorrectCount((c) => c + 1)
       setFeedback({ status: 'correct', message: t('feedback.correct1') })
       playCorrect(sound)
+      speakNumber(q.answer)
     } else {
       setFeedback({ status: 'retry', message: t('feedback.tryAgain1') })
       playTry(sound)

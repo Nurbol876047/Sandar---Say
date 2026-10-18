@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Minus, Plus } from 'lucide-react'
 import ExerciseShell from '../components/ExerciseShell'
 import { Ball } from '../components/BallScene'
 import { useSettings } from '../context/SettingsContext'
+import { useNumberVoice } from '../hooks/useNumberVoice'
 import { playClick, playCorrect, playTry } from '../utils/sound'
 import type { ExerciseResult } from '../types'
 
@@ -70,9 +71,15 @@ export default function CompositionExercise({ onFinish, onBack }: { onFinish: (r
   const [checked, setChecked] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
   const [correctCount, setCorrectCount] = useState(0)
+  const { speakNumber, speakSequence } = useNumberVoice()
 
   const target = TARGETS[index]
   const sum = left + right
+
+  useEffect(() => {
+    speakNumber(target)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index])
 
   const check = () => {
     const correct = left > 0 && right > 0 && sum === target
@@ -81,6 +88,7 @@ export default function CompositionExercise({ onFinish, onBack }: { onFinish: (r
     if (correct) {
       setCorrectCount((c) => c + 1)
       playCorrect(sound)
+      speakSequence([left, right])
     } else {
       playTry(sound)
     }

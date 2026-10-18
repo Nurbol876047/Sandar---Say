@@ -4,6 +4,7 @@ import ExerciseShell from '../components/ExerciseShell'
 import InfinityPath, { INFINITY_POINT_COUNT, infinityPointsNormalized } from '../components/InfinityPath'
 import { useSettings } from '../context/SettingsContext'
 import { useHandTracking } from '../hooks/useHandTracking'
+import { useNumberVoice } from '../hooks/useNumberVoice'
 import { playClick, playCorrect, playTry } from '../utils/sound'
 import type { ExerciseResult } from '../types'
 
@@ -15,6 +16,7 @@ const REACH_FRAMES = 4
 
 export default function InfinityExercise({ onFinish, onBack }: { onFinish: (r: ExerciseResult) => void; onBack: () => void }) {
   const { t, sound, animations, animationSpeed } = useSettings()
+  const { speakNumber } = useNumberVoice()
   const [phase, setPhase] = useState<Phase>('watch')
 
   const [watchKey, setWatchKey] = useState(0)
@@ -48,6 +50,13 @@ export default function InfinityExercise({ onFinish, onBack }: { onFinish: (r: E
     setWatchPlaying(true)
     setWatchKey((k) => k + 1)
   }
+
+  // Watch phase: call out each point's number as the marker travels past it — "бір, екі, үш...".
+  const watchReachedCount = Math.floor(watchT * INFINITY_POINT_COUNT)
+  useEffect(() => {
+    if (phase === 'watch' && watchReachedCount > 0) speakNumber(watchReachedCount)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [watchReachedCount])
 
   const [activeIndex, setActiveIndex] = useState(0)
   const [hadMistake, setHadMistake] = useState(false)
@@ -96,6 +105,7 @@ export default function InfinityExercise({ onFinish, onBack }: { onFinish: (r: E
     }
     if (!hadMistake) setCorrectCount((c) => c + 1)
     playCorrect(sound)
+    speakNumber(i + 1)
     setHadMistake(false)
     const nextIndex = activeIndex + 1
     if (nextIndex >= INFINITY_POINT_COUNT) {

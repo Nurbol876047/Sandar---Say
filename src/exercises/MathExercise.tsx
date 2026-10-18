@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import ExerciseShell from '../components/ExerciseShell'
 import BallScene, { Ball } from '../components/BallScene'
 import { useSettings } from '../context/SettingsContext'
+import { useNumberVoice } from '../hooks/useNumberVoice'
 import { buildChoices, generateMathProblem, type MathProblem } from '../utils/math'
 import { playClick, playCorrect, playTry } from '../utils/sound'
 import type { ExerciseResult } from '../types'
@@ -31,6 +32,7 @@ export default function MathExercise({ onFinish, onBack }: { onFinish: (r: Exerc
   const [checked, setChecked] = useState(false)
   const [bounce, setBounce] = useState(0)
   const [correctCount, setCorrectCount] = useState(0)
+  const { speakNumber, speakSequence } = useNumberVoice()
 
   const start = (lvl: Level) => {
     setLevel(lvl)
@@ -44,6 +46,11 @@ export default function MathExercise({ onFinish, onBack }: { onFinish: (r: Exerc
 
   const problem = problems[index]
 
+  useEffect(() => {
+    if (problem) speakSequence([problem.a, problem.b])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [problem])
+
   const throwAndCheck = () => {
     if (selected === null || checked) return
     playClick(sound)
@@ -52,6 +59,7 @@ export default function MathExercise({ onFinish, onBack }: { onFinish: (r: Exerc
     if (selected === problem.answer) {
       setCorrectCount((c) => c + 1)
       playCorrect(sound)
+      speakNumber(problem.answer)
     } else {
       playTry(sound)
     }

@@ -5,6 +5,7 @@ import HandIllustration from '../components/HandIllustration'
 import CameraPanel from '../components/CameraPanel'
 import { useSettings } from '../context/SettingsContext'
 import { useHandTracking } from '../hooks/useHandTracking'
+import { useNumberVoice } from '../hooks/useNumberVoice'
 import { playCorrect, playTry } from '../utils/sound'
 import type { ExerciseResult } from '../types'
 
@@ -25,12 +26,18 @@ export default function FingerExercise({ onFinish, onBack }: { onFinish: (r: Exe
   const [mode, setMode] = useState<InputMode>('click')
 
   const tracking = useHandTracking()
+  const { speakNumber } = useNumberVoice()
 
   const target = TARGETS[index]
   const selectedCount = useMemo(() => selected.filter(Boolean).length, [selected])
   const liveCount = mode === 'camera' ? tracking.extendedFingers : selectedCount
   const isCorrect = checked && liveCount === target
   const cameraMatching = mode === 'camera' && !checked && tracking.status === 'running' && liveCount === target
+
+  useEffect(() => {
+    speakNumber(target)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index])
 
   const toggleFinger = (i: number) => {
     if (checked || mode !== 'click') return
@@ -43,6 +50,7 @@ export default function FingerExercise({ onFinish, onBack }: { onFinish: (r: Exe
     if (liveCount === target) {
       setCorrectCount((c) => c + 1)
       playCorrect(sound)
+      speakNumber(target)
     } else {
       playTry(sound)
     }
@@ -69,8 +77,10 @@ export default function FingerExercise({ onFinish, onBack }: { onFinish: (r: Exe
       setChecked(true)
       setCorrectCount((c) => c + 1)
       playCorrect(sound)
+      speakNumber(target)
     }, AUTO_CONFIRM_HOLD_MS)
     return () => window.clearTimeout(id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cameraMatching, sound])
 
   // Camera mode: move on by itself after a correct auto-confirm, same spirit as clicking "Келесі".
