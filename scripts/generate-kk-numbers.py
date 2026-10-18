@@ -1,76 +1,61 @@
 """
 Generates the Kazakh number-word audio used by useNumberVoice (public/audio/numbers-kk/*.mp3).
 
-Runs fully offline/locally against the open facebook/mms-tts-kaz model (Meta's Massively
-Multilingual Speech project) — no paid API, nothing sent over the network except the one-time
-model download from Hugging Face.
+Uses the public Tilqazyna TTS API (https://speech.tilqazyna.kz, a Kazakh government/
+Nazarbayev University language-tech portal built on Piper) with the "Думан" male voice
+(kk-er2.onnx) — of the voices on offer (Раушан/Айгүл female, Арман/Думан male) this is the
+one that came out clearest on these specific number words. The API is called once per word
+here, at generation time; the running app never talks to it — it only ever plays the
+committed mp3 files, same as before.
 
-facebook/mms-tts-kaz is stochastic: the same word synthesized twice (different random seed) can
-come out noticeably clearer or muddier — or even mispronounced outright. (A tempting shortcut is
-zeroing noise_scale/noise_scale_duration for fully deterministic output, but that was tried and
-made several words sound flat-out wrong, not just less clear — the model seems to rely on that
-noise for correct phoneme timing on some words. Stick with per-word seed search instead.) The
-SEEDS below were picked by generating many seeded takes per word and scoring them with a Kazakh
-speech-to-text pass (faster-whisper), keeping whichever take the ASR round-tripped back to the
-intended word most closely. If a word still sounds unclear or wrong, rerun
-scripts/search-kk-number-seed.py for just that word with a wider seed range and drop the winning
-seed in here.
+An earlier version of this script ran facebook/mms-tts-kaz locally (via torch/transformers,
+seed search + ASR self-check). That approach is still viable as a fully-offline fallback —
+see git history / scripts/search-kk-number-seed.py — but Tilqazyna's voices were simply more
+reliable on these words without any of that tuning.
 
-Requirements:
-    pip install torch "transformers<5" scipy
+Requirements: `requests`, and ffmpeg available on PATH.
 
-Then, with ffmpeg available on PATH:
     python scripts/generate-kk-numbers.py
-    # writes WAV to ./kk_audio_raw/, then MP3s to public/audio/numbers-kk/
+    # fetches WAV per word from the API, writes MP3s to public/audio/numbers-kk/
 """
 
 import os
 import subprocess
-import sys
 
-import torch
-from transformers import VitsModel, AutoTokenizer
-from scipy.io.wavfile import write as wav_write
+import requests
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RAW_DIR = os.path.join(ROOT, "kk_audio_raw")
 OUT_DIR = os.path.join(ROOT, "public", "audio", "numbers-kk")
 
-MODEL_ID = "facebook/mms-tts-kaz"
+API_URL = "https://api.tilqazyna.kz/api/tts"
+VOICE = "kk-er2.onnx"  # Думан
 
-# word -> (text, seed). Add more entries here (any Kazakh word/phrase) to extend the vocabulary —
-# for a new word just start with seed 0 and run the seed search if it sounds unclear.
 WORDS = {
-    "0": ("нөл", 12),
-    "1": ("бір", 16),
-    "2": ("екі", 1),
-    "3": ("үш", 9),
-    "4": ("төрт", 7),
-    "5": ("бес", 11),
-    "6": ("алты", 2),
-    "7": ("жеті", 0),
-    "8": ("сегіз", 17),
-    "9": ("тоғыз", 16),
-    "10": ("он", 3),
+    "0": "нөл",
+    "1": "бір",
+    "2": "екі",
+    "3": "үш",
+    "4": "төрт",
+    "5": "бес",
+    "6": "алты",
+    "7": "жеті",
+    "8": "сегіз",
+    "9": "тоғыз",
+    "10": "он",
 }
 
 
 def synthesize():
     os.makedirs(RAW_DIR, exist_ok=True)
-    print("Loading facebook/mms-tts-kaz...")
-    model = VitsModel.from_pretrained(MODEL_ID)
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
-    model.eval()
-
-    for key, (word, seed) in WORDS.items():
-        inputs = tokenizer(word, return_tensors="pt")
-        torch.manual_seed(seed)
-        with torch.no_grad():
-            output = model(**inputs).waveform
-        audio = output.squeeze().cpu().numpy()
+    print(f"Fetching audio from {API_URL} (voice={VOICE})...")
+    for key, word in WORDS.items():
+        resp = requests.post(API_URL, json={"text": word, "voice": VOICE}, timeout=30)
+        resp.raise_for_status()
         path = os.path.join(RAW_DIR, f"{key}.wav")
-        wav_write(path, model.config.sampling_rate, audio)
-        print(f"  {key} -> {word!r} (seed={seed}, {len(audio) / model.config.sampling_rate:.2f}s)")
+        with open(path, "wb") as f:
+            f.write(resp.content)
+        print(f"  {key} -> {word!r} ({len(resp.content)} bytes)")
 
 
 def encode_mp3():
@@ -86,8 +71,8 @@ def encode_mp3():
         )
         fade_out_start = max(0.0, duration - 0.04)
         # Deliberately NOT trimming silence here: an earlier version used silenceremove and it
-        # occasionally chewed into real speech at the edges of a word (e.g. "сегіз" lost ~0.9s of
-        # its own ending). A short fade in/out avoids click/pop artifacts without that risk.
+        # occasionally chewed into real speech at the edges of a word. A short fade in/out avoids
+        # click/pop artifacts without that risk.
         subprocess.run(
             [
                 "ffmpeg", "-y", "-i", src,
@@ -103,7 +88,4 @@ def encode_mp3():
 
 if __name__ == "__main__":
     synthesize()
-    if subprocess.run(["which", "ffmpeg"], capture_output=True).returncode == 0:
-        encode_mp3()
-    else:
-        print("ffmpeg not found — WAV files are in", RAW_DIR, "; convert to mp3 manually.", file=sys.stderr)
+    encode_mp3()
