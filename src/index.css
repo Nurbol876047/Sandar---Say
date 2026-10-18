@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Nunito", "Segoe UI", ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-sky: #8fd3ff;
+  --color-brand-skylight: #e8f4ff;
+  --color-brand-cream: #fffdf8;
+  --color-brand-green: #cff5d5;
+  --color-brand-yellow: #fff0b8;
+  --color-brand-lavender: #e9dfff;
+  --color-brand-pink: #ffdce8;
+  --color-brand-navy: #203a87;
+
+  --animate-float: float 4s ease-in-out infinite;
+  --animate-pop: pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --animate-wiggle: wiggle 0.5s ease-in-out;
+  --animate-drift: drift 18s linear infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes pop {
+    0% { transform: scale(0.6); opacity: 0; }
+    70% { transform: scale(1.08); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-6deg); }
+    75% { transform: rotate(6deg); }
+  }
+  @keyframes drift {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-brand-skylight);
+  color: var(--color-brand-navy);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: var(--color-brand-sky);
+  color: var(--color-brand-navy);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.reduce-motion * {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+.slow-motion {
+  --motion-scale: 2.2;
+}
