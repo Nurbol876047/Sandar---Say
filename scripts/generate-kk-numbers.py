@@ -5,12 +5,11 @@ Runs fully offline/locally against the open facebook/mms-tts-kaz model (Meta's M
 Multilingual Speech project) — no paid API, nothing sent over the network except the one-time
 model download from Hugging Face.
 
-facebook/mms-tts-kaz is stochastic: the same word synthesized twice (different random seed) can
-come out noticeably clearer or muddier. The SEEDS below aren't arbitrary — each was picked by
-generating ~30 seeded takes per word and scoring them with a Kazakh speech-to-text pass
-(faster-whisper), keeping whichever take the ASR round-tripped back to the intended word most
-closely. If a word still sounds unclear, rerun scripts/search-kk-number-seed.py for just that
-word with a wider seed range and drop the winning seed in here.
+facebook/mms-tts-kaz is a stochastic VITS model: its decoder injects random noise controlled by
+`noise_scale`/`noise_scale_duration`, which is what made earlier takes sound slurred/mumbled on
+some words. Setting both to 0 makes synthesis fully deterministic and picks the most likely
+(clearest, most "read it straight") output instead of a random stylistic variation — no seed
+lottery or self-transcription needed.
 
 Requirements:
     pip install torch "transformers<5" scipy
@@ -34,20 +33,19 @@ OUT_DIR = os.path.join(ROOT, "public", "audio", "numbers-kk")
 
 MODEL_ID = "facebook/mms-tts-kaz"
 
-# word -> (text, seed). Add more entries here (any Kazakh word/phrase) to extend the vocabulary —
-# for a new word just start with seed 0 and run the seed search if it sounds unclear.
+# word -> text. Add more entries here (any Kazakh word/phrase) to extend the vocabulary.
 WORDS = {
-    "0": ("нөл", 12),
-    "1": ("бір", 16),
-    "2": ("екі", 1),
-    "3": ("үш", 10),
-    "4": ("төрт", 7),
-    "5": ("бес", 11),
-    "6": ("алты", 2),
-    "7": ("жеті", 0),
-    "8": ("сегіз", 17),
-    "9": ("тоғыз", 16),
-    "10": ("он", 3),
+    "0": "нөл",
+    "1": "бір",
+    "2": "екі",
+    "3": "үш",
+    "4": "төрт",
+    "5": "бес",
+    "6": "алты",
+    "7": "жеті",
+    "8": "сегіз",
+    "9": "тоғыз",
+    "10": "он",
 }
 
 
@@ -57,16 +55,18 @@ def synthesize():
     model = VitsModel.from_pretrained(MODEL_ID)
     tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
     model.eval()
+    model.config.noise_scale = 0.0
+    model.config.noise_scale_duration = 0.0
 
-    for key, (word, seed) in WORDS.items():
+    for key, word in WORDS.items():
         inputs = tokenizer(word, return_tensors="pt")
-        torch.manual_seed(seed)
+        torch.manual_seed(0)
         with torch.no_grad():
             output = model(**inputs).waveform
         audio = output.squeeze().cpu().numpy()
         path = os.path.join(RAW_DIR, f"{key}.wav")
         wav_write(path, model.config.sampling_rate, audio)
-        print(f"  {key} -> {word!r} (seed={seed}, {len(audio) / model.config.sampling_rate:.2f}s)")
+        print(f"  {key} -> {word!r} ({len(audio) / model.config.sampling_rate:.2f}s)")
 
 
 def encode_mp3():

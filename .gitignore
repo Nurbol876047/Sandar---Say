@@ -11,6 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
+.venv-tts
+kk_audio_raw
 
 # Editor directories and files
 .vscode/*
