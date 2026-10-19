@@ -15,10 +15,16 @@ export function infinityPoint(t: number): { x: number; y: number } {
   }
 }
 
+// Sampling exactly at i/N*2π puts two of the 8 points (at t=π/2 and t=3π/2) on top of each
+// other, both landing exactly on the lemniscate's self-crossing at the path's center. A
+// half-step offset keeps all points evenly spaced along the curve while avoiding that crossing.
+function pointAngle(i: number): number {
+  return ((i + 0.5) / INFINITY_POINT_COUNT) * Math.PI * 2
+}
+
 export function infinityPointsNormalized(): { x: number; y: number }[] {
   return Array.from({ length: INFINITY_POINT_COUNT }, (_, i) => {
-    const t = (i / INFINITY_POINT_COUNT) * Math.PI * 2
-    const p = infinityPoint(t)
+    const p = infinityPoint(pointAngle(i))
     return { x: p.x / 400, y: p.y / 240 }
   })
 }
@@ -43,10 +49,7 @@ export default function InfinityPath({ activeIndex, reachedCount, markerT, onPoi
     return d + 'Z'
   }, [])
 
-  const points = useMemo(
-    () => Array.from({ length: INFINITY_POINT_COUNT }, (_, i) => infinityPoint((i / INFINITY_POINT_COUNT) * Math.PI * 2)),
-    [],
-  )
+  const points = useMemo(() => Array.from({ length: INFINITY_POINT_COUNT }, (_, i) => infinityPoint(pointAngle(i))), [])
 
   const marker = markerT !== null ? infinityPoint(markerT * Math.PI * 2) : null
 
