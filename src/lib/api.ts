@@ -1,4 +1,7 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8787'
+// In dev, the Vite server (5173) and the API (8787) are different origins, so this
+// needs a full URL. In production the API serves the built frontend itself (see
+// server/index.js), so same-origin relative paths just work — no env var needed.
+const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:8787' : '')
 
 export interface ApiUser {
   id: string

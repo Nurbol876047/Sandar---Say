@@ -1,8 +1,13 @@
+import { existsSync } from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import express from 'express'
 import cors from 'cors'
 import { db } from './db.js'
 import { hashPassword, verifyPassword } from './auth.js'
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const DIST_DIR = path.join(__dirname, '..', 'dist')
 const PORT = process.env.PORT || 8787
 
 const app = express()
@@ -194,6 +199,17 @@ app.get('/api/therapist/export.csv', requireAuth, requireRole('therapist'), (req
 })
 
 app.get('/api/health', (_req, res) => res.json({ ok: true }))
+
+// Serve the built frontend (npm run build at the repo root) from the same service,
+// so one free Render Web Service hosts both — no second static site, no CORS, no
+// VITE_API_URL to keep in sync. Falls back to index.html for client-side routes.
+if (existsSync(DIST_DIR)) {
+  app.use(express.static(DIST_DIR))
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api/')) return next()
+    res.sendFile(path.join(DIST_DIR, 'index.html'))
+  })
+}
 
 app.listen(PORT, () => {
   console.log(`[sandar-soyleydi-server] listening on http://localhost:${PORT}`)

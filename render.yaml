@@ -1,34 +1,18 @@
 services:
-  # The actual deployed static site is named "sandar-say" on Render (created
-  # manually, before this file existed) — rename the block below to match if you
-  # ever apply this as a Blueprint instead of creating services by hand.
-  - type: web
-    name: sandar-say
-    env: static
-    buildCommand: npm install && npm run build
-    staticPublishPath: ./dist
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
-    envVars:
-      # Points the built frontend at the API service below. Update if you rename
-      # the API service (Render URLs are https://<service-name>.onrender.com).
-      - key: VITE_API_URL
-        value: https://sandar-say-api.onrender.com
-
-  # Backend for the progress module (parent/therapist accounts, child progress).
+  # Single service: server/index.js runs the API and also serves the built
+  # frontend (npm run build at the repo root produces dist/, which the Express
+  # app serves as static files with an SPA fallback — see server/index.js).
+  # One free Render Web Service, one URL, no CORS/VITE_API_URL to keep in sync.
+  #
   # Demo/contest project, not a real clinic — registration lets anyone pick
-  # either role, no invite code or approval step.
+  # either role (parent/therapist), no invite code or approval step.
+  #
   # Free plan: no persistent disk, so data/db.json (server/db.js) resets on every
   # redeploy and the service sleeps after ~15 min idle (first request after that
-  # takes 30-60s to wake up). Fine for a low-traffic/low-budget deploy; switch
-  # `plan` to "starter" and add a `disk:` block (see git history) if real
-  # persistence is ever needed.
+  # takes 30-60s to wake up).
   - type: web
-    name: sandar-say-api
+    name: sandar-say
     env: node
     plan: free
-    rootDir: server
-    buildCommand: npm install
-    startCommand: npm start
+    buildCommand: npm install && npm run build && npm install --prefix server
+    startCommand: npm start --prefix server
