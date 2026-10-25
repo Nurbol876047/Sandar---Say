@@ -144,6 +144,17 @@ export const EXERCISES: ExerciseMeta[] = [
     theme: { bg: 'bg-cyan-100', ring: 'ring-cyan-300', badge: 'bg-brand-sky' },
     badgeKey: 'badge.soundLu',
   },
+  {
+    id: 'nn-roots',
+    order: 14,
+    category: 'speech',
+    titleKey: 'ex.nnRoots.title',
+    descKey: 'ex.nnRoots.desc',
+    difficulty: 'medium',
+    icon: 'sprout',
+    theme: { bg: 'bg-lime-100', ring: 'ring-lime-300', badge: 'bg-brand-green' },
+    badgeKey: 'badge.nnRoots',
+  },
 ]
 
 export function getExerciseMeta(id: string): ExerciseMeta | undefined {

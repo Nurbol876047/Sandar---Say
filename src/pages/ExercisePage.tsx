@@ -16,6 +16,7 @@ import SoundRlExercise from '../exercises/SoundRlExercise'
 import SoundShExercise from '../exercises/SoundShExercise'
 import SoundNnExercise from '../exercises/SoundNnExercise'
 import SoundLuExercise from '../exercises/SoundLuExercise'
+import NnRootsExercise from '../exercises/NnRootsExercise'
 
 const COMPONENTS: Record<ExerciseId, React.ComponentType<{ onFinish: (result: ExerciseResult) => void; onBack: () => void }>> = {
   counting: CountingExercise,
@@ -31,6 +32,7 @@ const COMPONENTS: Record<ExerciseId, React.ComponentType<{ onFinish: (result: Ex
   'sound-sh': SoundShExercise,
   'sound-nn': SoundNnExercise,
   'sound-lu': SoundLuExercise,
+  'nn-roots': NnRootsExercise,
 }
 
 interface ExercisePageProps {

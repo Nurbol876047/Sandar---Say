@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Calculator, CircleDot, Ear, Hand, Infinity as InfinityIcon, LayoutGrid, Play, Smile, Sparkles, Split, Star, Wind } from 'lucide-react'
+import { Calculator, CircleDot, Ear, Hand, Infinity as InfinityIcon, LayoutGrid, Play, Smile, Sparkles, Split, Sprout, Star, Wind } from 'lucide-react'
 import type { ComponentType } from 'react'
 import type { ExerciseMeta, ExerciseProgress } from '../types'
 import { useSettings } from '../context/SettingsContext'
@@ -15,6 +15,7 @@ const ICONS: Record<string, ComponentType<{ className?: string }>> = {
   sparkles: Sparkles,
   ear: Ear,
   wind: Wind,
+  sprout: Sprout,
 }
 
 interface ExerciseCardProps {

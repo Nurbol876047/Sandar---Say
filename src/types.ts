@@ -25,6 +25,7 @@ export type ExerciseId =
   | 'sound-sh'
   | 'sound-nn'
   | 'sound-lu'
+  | 'nn-roots'
 
 export type Difficulty = 'easy' | 'medium'
 

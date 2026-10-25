@@ -108,3 +108,21 @@ export const SOUND_PAIRS: Record<'rl' | 'sh' | 'nn', SoundPair> = {
     ],
   },
 }
+
+export interface RootWordGroup {
+  root: string
+  words: string[]
+}
+
+/**
+ * The 4-root method for teaching Ң to older children: each root keeps its Ң across every
+ * derived word in its family, so recognising the shared root is how a child learns to spell
+ * it correctly instead of guessing Н vs Ң by ear. Content taken verbatim from the speech
+ * therapist's reference table (root -> its derived words).
+ */
+export const NN_ROOT_GROUPS: RootWordGroup[] = [
+  { root: 'ЖЕҢ', words: ['ЖЕҢІЛ', 'ЖЕҢГЕ', 'ЖЕҢІМПАЗ'] },
+  { root: 'ТАҢ', words: ['ТАҢҒЫ', 'ТАҢДАУ', 'ТАҢБА'] },
+  { root: 'ТЫҢ', words: ['ТЫҢШЫ', 'ТЫҢДАЛЫМ', 'ТЫҢДА'] },
+  { root: 'ЖАҢ', words: ['ЖАҢА', 'ЖАҢҒАҚ', 'ЖАҢАЛЫҚ'] },
+]
