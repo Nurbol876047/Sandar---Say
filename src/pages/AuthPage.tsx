@@ -118,6 +118,7 @@ export default function AuthPage({ onNavigateTherapist }: { onNavigateTherapist:
   const [childName, setChildName] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
+  const [waking, setWaking] = useState(false)
 
   if (user) return <AccountView onNavigateTherapist={onNavigateTherapist} />
 
@@ -125,6 +126,7 @@ export default function AuthPage({ onNavigateTherapist }: { onNavigateTherapist:
     e.preventDefault()
     setError(null)
     setBusy(true)
+    const wakeTimer = window.setTimeout(() => setWaking(true), 2500)
     try {
       if (mode === 'login') {
         await login(email, password)
@@ -134,6 +136,8 @@ export default function AuthPage({ onNavigateTherapist }: { onNavigateTherapist:
     } catch (err) {
       setError(err instanceof ApiError ? err.message : t('auth.networkError'))
     } finally {
+      window.clearTimeout(wakeTimer)
+      setWaking(false)
       setBusy(false)
     }
   }
@@ -198,6 +202,9 @@ export default function AuthPage({ onNavigateTherapist }: { onNavigateTherapist:
             </Field>
           )}
 
+          {waking && !error && (
+            <p className="rounded-xl bg-brand-skylight px-3 py-2 text-xs font-bold text-brand-navy/70">{t('auth.waking')}</p>
+          )}
           {error && <p className="rounded-xl bg-brand-pink/60 px-3 py-2 text-xs font-bold text-pink-900">{error}</p>}
 
           <button

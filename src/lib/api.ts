@@ -37,13 +37,43 @@ export interface TherapistOverviewRow {
 
 class ApiError extends Error {}
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+// Render's free instance type sleeps after ~15 min idle; the first request wakes it
+// and can take 30-50s or briefly fail with a network error / 502-504 while it boots.
+// Retry through that instead of surfacing it as "the site is broken" — but don't
+// retry 4xx responses (wrong password etc.), those are real and immediate.
+const WAKE_RETRY_DELAYS_MS = [1000, 3000, 6000, 10000, 15000]
+
 async function request<T>(path: string, options: RequestInit = {}, token?: string | null): Promise<T> {
   const headers: Record<string, string> = { 'Content-Type': 'application/json', ...(options.headers as Record<string, string>) }
   if (token) headers.Authorization = `Bearer ${token}`
-  const res = await fetch(`${API_URL}${path}`, { ...options, headers })
-  const data = await res.json().catch(() => ({}))
-  if (!res.ok) throw new ApiError(data.error || 'Белгісіз қате')
-  return data as T
+
+  let lastNetworkError: unknown
+  for (let attempt = 0; attempt <= WAKE_RETRY_DELAYS_MS.length; attempt++) {
+    let res: Response
+    try {
+      res = await fetch(`${API_URL}${path}`, { ...options, headers })
+    } catch (err) {
+      lastNetworkError = err
+      if (attempt < WAKE_RETRY_DELAYS_MS.length) {
+        await sleep(WAKE_RETRY_DELAYS_MS[attempt])
+        continue
+      }
+      throw new ApiError('Сервер ұйықтап жатыр, сәл кейінірек қайталап көріңіз')
+    }
+
+    if (!res.ok && [502, 503, 504].includes(res.status) && attempt < WAKE_RETRY_DELAYS_MS.length) {
+      await sleep(WAKE_RETRY_DELAYS_MS[attempt])
+      continue
+    }
+
+    const data = await res.json().catch(() => ({}))
+    if (!res.ok) throw new ApiError(data.error || 'Белгісіз қате')
+    return data as T
+  }
+
+  throw new ApiError(lastNetworkError instanceof Error ? lastNetworkError.message : 'Белгісіз қате')
 }
 
 export const api = {
