@@ -1,7 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
+import { Volume2 } from 'lucide-react'
 import ExerciseShell from '../components/ExerciseShell'
 import { useSettings } from '../context/SettingsContext'
+import { useWordVoice } from '../hooks/useWordVoice'
 import { playCorrect, playTry } from '../utils/sound'
 import { shuffle } from '../utils/math'
 import { NN_ROOT_GROUPS } from '../data/speechContent'
@@ -27,6 +29,7 @@ export default function NnRootsExercise({
   onBack: () => void
 }) {
   const { t, sound } = useSettings()
+  const { speakWord } = useWordVoice()
   const rounds = useMemo(() => buildRounds(), [])
   const [index, setIndex] = useState(0)
   const [answer, setAnswer] = useState<string | null>(null)
@@ -35,6 +38,11 @@ export default function NnRootsExercise({
   const round = rounds[index]
   // eslint-disable-next-line react-hooks/exhaustive-deps -- reshuffle button order each round, not on every render
   const options = useMemo(() => shuffle(ROOTS), [round])
+
+  useEffect(() => {
+    speakWord(round.word)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [index])
 
   const select = (choice: string) => {
     if (answer) return
@@ -99,9 +107,13 @@ export default function NnRootsExercise({
         animate={{ scale: 1, opacity: 1 }}
         className="flex flex-col items-center gap-3"
       >
-        <span className="rounded-2xl bg-white/80 px-8 py-5 text-4xl font-extrabold text-brand-navy shadow-sm sm:text-5xl">
+        <button
+          onClick={() => speakWord(round.word)}
+          className="flex items-center gap-3 rounded-2xl bg-white/80 px-8 py-5 text-4xl font-extrabold text-brand-navy shadow-sm transition-transform hover:scale-105 active:scale-95 sm:text-5xl"
+        >
           {round.word}
-        </span>
+          <Volume2 className="h-7 w-7 shrink-0 text-brand-navy/40 sm:h-8 sm:w-8" />
+        </button>
         <p className="mt-2 text-sm font-semibold text-brand-navy/50">{t('nnroots.question')}</p>
       </motion.div>
     </ExerciseShell>
