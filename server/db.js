@@ -133,9 +133,4 @@ export const db = {
     persist()
     return row
   },
-
-  // --- seeding ---
-  hasTherapist() {
-    return state.users.some((u) => u.role === 'therapist')
-  },
 }

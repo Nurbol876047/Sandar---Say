@@ -116,6 +116,8 @@ export default function AuthPage({ onNavigateTherapist }: { onNavigateTherapist:
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
   const [childName, setChildName] = useState('')
+  const [isTherapist, setIsTherapist] = useState(false)
+  const [inviteCode, setInviteCode] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
   const [waking, setWaking] = useState(false)
@@ -131,7 +133,7 @@ export default function AuthPage({ onNavigateTherapist }: { onNavigateTherapist:
       if (mode === 'login') {
         await login(email, password)
       } else {
-        await register(email, password, name, childName)
+        await register(email, password, name, isTherapist ? '' : childName, isTherapist ? inviteCode : undefined)
       }
     } catch (err) {
       setError(err instanceof ApiError ? err.message : t('auth.networkError'))
@@ -196,9 +198,33 @@ export default function AuthPage({ onNavigateTherapist }: { onNavigateTherapist:
               autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
             />
           </Field>
-          {mode === 'register' && (
+          {mode === 'register' && !isTherapist && (
             <Field label={t('auth.childName')}>
               <input value={childName} onChange={(e) => setChildName(e.target.value)} className={inputClass} />
+            </Field>
+          )}
+
+          {mode === 'register' && (
+            <label className="flex items-center gap-2 text-xs font-bold text-brand-navy/70">
+              <input
+                type="checkbox"
+                checked={isTherapist}
+                onChange={(e) => setIsTherapist(e.target.checked)}
+                className="h-4 w-4 rounded border-2 border-brand-navy/30"
+              />
+              {t('auth.iAmTherapist')}
+            </label>
+          )}
+
+          {mode === 'register' && isTherapist && (
+            <Field label={t('auth.inviteCode')}>
+              <input
+                value={inviteCode}
+                onChange={(e) => setInviteCode(e.target.value)}
+                required
+                className={inputClass}
+                placeholder={t('auth.inviteCodePlaceholder')}
+              />
             </Field>
           )}
 

@@ -4,20 +4,11 @@ import { db } from './db.js'
 import { hashPassword, verifyPassword } from './auth.js'
 
 const PORT = process.env.PORT || 8787
-const THERAPIST_EMAIL = process.env.THERAPIST_EMAIL || 'logoped@sandar-soyleydi.local'
-const THERAPIST_PASSWORD = process.env.THERAPIST_PASSWORD || 'logoped2026'
-const THERAPIST_NAME = process.env.THERAPIST_NAME || 'Тогжан апай'
-
-function seedTherapist() {
-  if (db.hasTherapist()) return
-  const { salt, passwordHash } = hashPassword(THERAPIST_PASSWORD)
-  db.createUser({ email: THERAPIST_EMAIL, name: THERAPIST_NAME, passwordHash, salt, role: 'therapist' })
-  console.log('[seed] Logoped (therapist) account created:')
-  console.log(`  email:    ${THERAPIST_EMAIL}`)
-  console.log(`  password: ${THERAPIST_PASSWORD}`)
-  console.log('  Change THERAPIST_EMAIL / THERAPIST_PASSWORD env vars before real use.')
-}
-seedTherapist()
+// Whoever registers with this code (as the "I'm a therapist" option on the signup
+// form) gets the therapist role, which can see every parent's children — so this
+// must be set to a real secret in production (Render dashboard env var), shared
+// only with the actual logoped(s). Unset = therapist self-registration is disabled.
+const THERAPIST_INVITE_CODE = process.env.THERAPIST_INVITE_CODE || null
 
 const app = express()
 app.use(cors())
@@ -55,18 +46,27 @@ function childBelongsToParent(childId, parentId) {
 // --- auth ---
 
 app.post('/api/auth/register', (req, res) => {
-  const { email, password, name, childName } = req.body ?? {}
+  const { email, password, name, childName, inviteCode } = req.body ?? {}
   if (!email || !password || String(password).length < 6) {
     return res.status(400).json({ error: 'Email және кемінде 6 таңбалы құпиясөз қажет' })
   }
   if (db.findUserByEmail(email)) {
     return res.status(409).json({ error: 'Бұл email тіркелген' })
   }
+
+  let role = 'parent'
+  if (inviteCode) {
+    if (!THERAPIST_INVITE_CODE || inviteCode !== THERAPIST_INVITE_CODE) {
+      return res.status(403).json({ error: 'Логопед коды қате' })
+    }
+    role = 'therapist'
+  }
+
   const { salt, passwordHash } = hashPassword(password)
-  const user = db.createUser({ email, name: name || '', passwordHash, salt, role: 'parent' })
+  const user = db.createUser({ email, name: name || '', passwordHash, salt, role })
   const token = db.createSession(user.id)
   let child = null
-  if (childName && String(childName).trim()) {
+  if (role === 'parent' && childName && String(childName).trim()) {
     child = db.createChild({ parentId: user.id, name: String(childName).trim() })
   }
   res.json({ token, user: publicUser(user), children: child ? [child] : [] })

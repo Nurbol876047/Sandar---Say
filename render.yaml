@@ -1,6 +1,9 @@
 services:
+  # The actual deployed static site is named "sandar-say" on Render (created
+  # manually, before this file existed) — rename the block below to match if you
+  # ever apply this as a Blueprint instead of creating services by hand.
   - type: web
-    name: sandar-soyleydi
+    name: sandar-say
     env: static
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
@@ -12,7 +15,7 @@ services:
       # Points the built frontend at the API service below. Update if you rename
       # the API service (Render URLs are https://<service-name>.onrender.com).
       - key: VITE_API_URL
-        value: https://sandar-soyleydi-api.onrender.com
+        value: https://sandar-say-api.onrender.com
 
   # Backend for the progress module (parent/therapist accounts, child progress).
   # Free plan: no persistent disk, so data/db.json (server/db.js) resets on every
@@ -21,19 +24,16 @@ services:
   # `plan` to "starter" and add a `disk:` block (see git history) if real
   # persistence is ever needed.
   - type: web
-    name: sandar-soyleydi-api
+    name: sandar-say-api
     env: node
     plan: free
     rootDir: server
     buildCommand: npm install
     startCommand: npm start
     envVars:
-      # Set these in the Render dashboard (don't commit real credentials) —
-      # otherwise the therapist account seeds with the dev defaults from
-      # server/index.js, which anyone could read in this repo.
-      - key: THERAPIST_EMAIL
-        sync: false
-      - key: THERAPIST_PASSWORD
-        sync: false
-      - key: THERAPIST_NAME
+      # Whoever registers with this code (the "I'm a therapist" checkbox on
+      # signup) becomes a therapist — which can see every parent's children.
+      # Set a real secret here and share it only with the actual logoped(s).
+      # Leaving it unset disables therapist self-registration entirely.
+      - key: THERAPIST_INVITE_CODE
         sync: false

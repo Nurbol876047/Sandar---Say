@@ -77,7 +77,7 @@ async function request<T>(path: string, options: RequestInit = {}, token?: strin
 }
 
 export const api = {
-  register: (body: { email: string; password: string; name?: string; childName?: string }) =>
+  register: (body: { email: string; password: string; name?: string; childName?: string; inviteCode?: string }) =>
     request<{ token: string; user: ApiUser; children: ApiChild[] }>('/api/auth/register', { method: 'POST', body: JSON.stringify(body) }),
   login: (body: { email: string; password: string }) =>
     request<{ token: string; user: ApiUser; children: ApiChild[] }>('/api/auth/login', { method: 'POST', body: JSON.stringify(body) }),
