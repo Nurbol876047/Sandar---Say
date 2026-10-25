@@ -10,10 +10,12 @@ import FingerExercise from '../exercises/FingerExercise'
 import CompositionExercise from '../exercises/CompositionExercise'
 import InfinityExercise from '../exercises/InfinityExercise'
 import ArticulationExercise from '../exercises/ArticulationExercise'
+import BreathingExercise from '../exercises/BreathingExercise'
 import NeurogymExercise from '../exercises/NeurogymExercise'
 import SoundRlExercise from '../exercises/SoundRlExercise'
 import SoundShExercise from '../exercises/SoundShExercise'
 import SoundNnExercise from '../exercises/SoundNnExercise'
+import SoundLuExercise from '../exercises/SoundLuExercise'
 
 const COMPONENTS: Record<ExerciseId, React.ComponentType<{ onFinish: (result: ExerciseResult) => void; onBack: () => void }>> = {
   counting: CountingExercise,
@@ -23,10 +25,12 @@ const COMPONENTS: Record<ExerciseId, React.ComponentType<{ onFinish: (result: Ex
   composition: CompositionExercise,
   infinity: InfinityExercise,
   articulation: ArticulationExercise,
+  breathing: BreathingExercise,
   neurogym: NeurogymExercise,
   'sound-rl': SoundRlExercise,
   'sound-sh': SoundShExercise,
   'sound-nn': SoundNnExercise,
+  'sound-lu': SoundLuExercise,
 }
 
 interface ExercisePageProps {

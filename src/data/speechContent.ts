@@ -6,20 +6,32 @@ export interface FollowMove {
   nameKey: TranslationKey
   descKey: TranslationKey
   seconds: number
+  video?: string
 }
 
 export const ARTICULATION_MOVES: FollowMove[] = [
-  { id: 'clock', emoji: '🕐', nameKey: 'move.clock.name', descKey: 'move.clock.desc', seconds: 8 },
-  { id: 'horse', emoji: '🐴', nameKey: 'move.horse.name', descKey: 'move.horse.desc', seconds: 8 },
-  { id: 'jam', emoji: '🍯', nameKey: 'move.jam.name', descKey: 'move.jam.desc', seconds: 8 },
-  { id: 'mushroom', emoji: '🍄', nameKey: 'move.mushroom.name', descKey: 'move.mushroom.desc', seconds: 8 },
+  { id: 'clock', emoji: '🕐', nameKey: 'move.clock.name', descKey: 'move.clock.desc', seconds: 8, video: '/videos/articulation/clock.mp4' },
+  { id: 'horse', emoji: '🐴', nameKey: 'move.horse.name', descKey: 'move.horse.desc', seconds: 8, video: '/videos/articulation/horse.mp4' },
+  { id: 'jam', emoji: '🍯', nameKey: 'move.jam.name', descKey: 'move.jam.desc', seconds: 8, video: '/videos/articulation/jam.mp4' },
+  { id: 'mushroom', emoji: '🍄', nameKey: 'move.mushroom.name', descKey: 'move.mushroom.desc', seconds: 8, video: '/videos/articulation/mushroom.mp4' },
+]
+
+export const SOUND_LU_MOVES: FollowMove[] = [
+  { id: 'steamship', emoji: '🚢', nameKey: 'move.steamship.name', descKey: 'move.steamship.desc', seconds: 8 },
+  { id: 'wolfhowl', emoji: '🐺', nameKey: 'move.wolfhowl.name', descKey: 'move.wolfhowl.desc', seconds: 8 },
+]
+
+export const BREATHING_MOVES: FollowMove[] = [
+  { id: 'bubbles', emoji: '🫧', nameKey: 'move.bubbles.name', descKey: 'move.bubbles.desc', seconds: 8, video: '/videos/breathing/bubbles.mp4' },
+  { id: 'candle', emoji: '🕯️', nameKey: 'move.candle.name', descKey: 'move.candle.desc', seconds: 8, video: '/videos/breathing/candle.mp4' },
+  { id: 'balloon', emoji: '🎈', nameKey: 'move.balloon.name', descKey: 'move.balloon.desc', seconds: 8, video: '/videos/breathing/balloon.mp4' },
 ]
 
 export const NEUROGYM_MOVES: FollowMove[] = [
-  { id: 'crosscrawl', emoji: '🚶', nameKey: 'move.crosscrawl.name', descKey: 'move.crosscrawl.desc', seconds: 10 },
-  { id: 'earnose', emoji: '👃', nameKey: 'move.earnose.name', descKey: 'move.earnose.desc', seconds: 10 },
-  { id: 'butterfly', emoji: '🦋', nameKey: 'move.butterfly.name', descKey: 'move.butterfly.desc', seconds: 10 },
-  { id: 'infinity8', emoji: '♾️', nameKey: 'move.infinity8.name', descKey: 'move.infinity8.desc', seconds: 10 },
+  { id: 'crosscrawl', emoji: '🚶', nameKey: 'move.crosscrawl.name', descKey: 'move.crosscrawl.desc', seconds: 10, video: '/videos/neurogym/crosscrawl.mp4' },
+  { id: 'earnose', emoji: '👃', nameKey: 'move.earnose.name', descKey: 'move.earnose.desc', seconds: 10, video: '/videos/neurogym/earnose.mp4' },
+  { id: 'butterfly', emoji: '🦋', nameKey: 'move.butterfly.name', descKey: 'move.butterfly.desc', seconds: 10, video: '/videos/neurogym/butterfly.mp4' },
+  { id: 'infinity8', emoji: '♾️', nameKey: 'move.infinity8.name', descKey: 'move.infinity8.desc', seconds: 10, video: '/videos/neurogym/infinity8.mp4' },
 ]
 
 export type SoundOption = 'A' | 'B'

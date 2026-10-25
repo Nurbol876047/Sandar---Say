@@ -79,8 +79,19 @@ export const EXERCISES: ExerciseMeta[] = [
     badgeKey: 'badge.articulation',
   },
   {
-    id: 'neurogym',
+    id: 'breathing',
     order: 8,
+    category: 'speech',
+    titleKey: 'ex.breathing.title',
+    descKey: 'ex.breathing.desc',
+    difficulty: 'easy',
+    icon: 'wind',
+    theme: { bg: 'bg-sky-100', ring: 'ring-sky-300', badge: 'bg-brand-mint' },
+    badgeKey: 'badge.breathing',
+  },
+  {
+    id: 'neurogym',
+    order: 9,
     category: 'speech',
     titleKey: 'ex.neurogym.title',
     descKey: 'ex.neurogym.desc',
@@ -91,7 +102,7 @@ export const EXERCISES: ExerciseMeta[] = [
   },
   {
     id: 'sound-rl',
-    order: 9,
+    order: 10,
     category: 'speech',
     titleKey: 'ex.soundRl.title',
     descKey: 'ex.soundRl.desc',
@@ -102,7 +113,7 @@ export const EXERCISES: ExerciseMeta[] = [
   },
   {
     id: 'sound-sh',
-    order: 10,
+    order: 11,
     category: 'speech',
     titleKey: 'ex.soundSh.title',
     descKey: 'ex.soundSh.desc',
@@ -113,7 +124,7 @@ export const EXERCISES: ExerciseMeta[] = [
   },
   {
     id: 'sound-nn',
-    order: 11,
+    order: 12,
     category: 'speech',
     titleKey: 'ex.soundNn.title',
     descKey: 'ex.soundNn.desc',
@@ -121,6 +132,17 @@ export const EXERCISES: ExerciseMeta[] = [
     icon: 'ear',
     theme: { bg: 'bg-pink-100', ring: 'ring-pink-300', badge: 'bg-brand-magenta' },
     badgeKey: 'badge.soundNn',
+  },
+  {
+    id: 'sound-lu',
+    order: 13,
+    category: 'speech',
+    titleKey: 'ex.soundLu.title',
+    descKey: 'ex.soundLu.desc',
+    difficulty: 'medium',
+    icon: 'ear',
+    theme: { bg: 'bg-cyan-100', ring: 'ring-cyan-300', badge: 'bg-brand-sky' },
+    badgeKey: 'badge.soundLu',
   },
 ]
 

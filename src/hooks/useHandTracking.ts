@@ -16,6 +16,8 @@ export interface HandTrackingResult {
   indexTip: Point | null
   fingerTips: (Point | null)[]
   gestureOpen: boolean
+  /** Wrist position of every currently detected hand (0-2 entries), mirrored like the other points. */
+  hands: Point[]
   enable: () => void
   disable: () => void
 }
@@ -35,7 +37,7 @@ function getLandmarker(): Promise<HandLandmarkerType> {
         HandLandmarker.createFromOptions(fileset, {
           baseOptions: { modelAssetPath: MODEL_URL, delegate: 'CPU' },
           runningMode: 'VIDEO',
-          numHands: 1,
+          numHands: 2,
         }),
       ),
     )
@@ -77,6 +79,7 @@ export function useHandTracking(): HandTrackingResult {
   const [indexTip, setIndexTip] = useState<Point | null>(null)
   const [fingerTips, setFingerTips] = useState<(Point | null)[]>([null, null, null, null, null])
   const [gestureOpen, setGestureOpen] = useState(false)
+  const [hands, setHands] = useState<Point[]>([])
 
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const streamRef = useRef<MediaStream | null>(null)
@@ -93,6 +96,7 @@ export function useHandTracking(): HandTrackingResult {
         .then((landmarker) => {
           if (!activeRef.current) return
           const result = landmarker.detectForVideo(video, performance.now())
+          setHands((result.landmarks ?? []).map((h) => ({ x: 1 - h[0].x, y: h[0].y })))
           const hand = result.landmarks?.[0]
           if (hand && hand.length === 21) {
             const tips: (Point | null)[] = TIP_IDS.map((id) => ({ x: 1 - hand[id].x, y: hand[id].y }))
@@ -146,6 +150,7 @@ export function useHandTracking(): HandTrackingResult {
     setIndexTip(null)
     setFingerTips([null, null, null, null, null])
     setGestureOpen(false)
+    setHands([])
     setStatus('idle')
   }, [])
 
@@ -183,5 +188,5 @@ export function useHandTracking(): HandTrackingResult {
 
   useEffect(() => disable, [disable])
 
-  return { status, supported, videoRef, extendedFingers, indexTip, fingerTips, gestureOpen, enable, disable }
+  return { status, supported, videoRef, extendedFingers, indexTip, fingerTips, gestureOpen, hands, enable, disable }
 }

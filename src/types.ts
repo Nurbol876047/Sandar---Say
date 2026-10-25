@@ -19,10 +19,12 @@ export type ExerciseId =
   | 'composition'
   | 'infinity'
   | 'articulation'
+  | 'breathing'
   | 'neurogym'
   | 'sound-rl'
   | 'sound-sh'
   | 'sound-nn'
+  | 'sound-lu'
 
 export type Difficulty = 'easy' | 'medium'
 
