@@ -236,13 +236,11 @@ export default function NeurogymExercise({ onFinish, onBack }: { onFinish: (r: E
         )}
       </div>
 
-      <motion.div
-        key={move.id}
-        initial={{ scale: 0.6, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        className="flex w-full flex-col items-center"
-      >
-        {cameraMode ? (
+      <div className="flex w-full flex-col items-center">
+        {cameraMode && (
+          // Kept outside the per-move `key`-animated block below: remounting this on every move
+          // change would tear down the <video> the live MediaStream is attached to, leaving the
+          // camera feed blank and detection stuck on a freshly-mounted, stream-less element.
           <div className="relative w-full max-w-md overflow-hidden rounded-2xl bg-brand-navy shadow-lg">
             {/* Mounted as soon as camera mode turns on (not only once 'running') so the ref is ready
                 the instant the stream resolves — see useHandTracking's enable() race otherwise. */}
@@ -288,47 +286,57 @@ export default function NeurogymExercise({ onFinish, onBack }: { onFinish: (r: E
               </>
             )}
           </div>
-        ) : move.video ? (
-          <video
-            ref={demoVideoRef}
-            src={move.video}
-            muted
-            loop
-            playsInline
-            preload="auto"
-            autoPlay={phase === 'running'}
-            className="h-48 w-48 rounded-3xl object-cover shadow-lg sm:h-60 sm:w-60"
-          />
-        ) : (
-          <span className="text-8xl sm:text-9xl">{move.emoji}</span>
         )}
 
-        <h3 className="mt-5 text-xl font-extrabold text-brand-navy sm:text-2xl">{t(move.nameKey)}</h3>
-        <p className="mt-2 max-w-sm text-center text-sm font-semibold text-brand-navy/70 sm:text-base">{t(move.descKey)}</p>
-
-        {phase === 'running' && !cameraMode && (
-          <div className="relative mt-6 flex h-24 w-24 items-center justify-center">
-            <svg className="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 96 96">
-              <circle cx="48" cy="48" r="40" fill="none" stroke="#e8f4ff" strokeWidth="8" />
-              <motion.circle
-                cx="48"
-                cy="48"
-                r="40"
-                fill="none"
-                stroke="#ff5fa8"
-                strokeWidth="8"
-                strokeLinecap="round"
-                strokeDasharray={2 * Math.PI * 40}
-                animate={{ strokeDashoffset: 2 * Math.PI * 40 * (1 - pct) }}
-                transition={{ duration: 0.4, ease: 'linear' }}
+        <motion.div
+          key={move.id}
+          initial={{ scale: 0.6, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="flex w-full flex-col items-center"
+        >
+          {!cameraMode &&
+            (move.video ? (
+              <video
+                ref={demoVideoRef}
+                src={move.video}
+                muted
+                loop
+                playsInline
+                preload="auto"
+                autoPlay={phase === 'running'}
+                className="h-48 w-48 rounded-3xl object-cover shadow-lg sm:h-60 sm:w-60"
               />
-            </svg>
-            <span className="text-2xl font-extrabold text-brand-navy">{remaining}</span>
-          </div>
-        )}
+            ) : (
+              <span className="text-8xl sm:text-9xl">{move.emoji}</span>
+            ))}
 
-        {cameraMode && <p className="mt-4 text-center text-xs text-brand-navy/40">{t('neurogym.cameraInstruction')}</p>}
-      </motion.div>
+          <h3 className="mt-5 text-xl font-extrabold text-brand-navy sm:text-2xl">{t(move.nameKey)}</h3>
+          <p className="mt-2 max-w-sm text-center text-sm font-semibold text-brand-navy/70 sm:text-base">{t(move.descKey)}</p>
+
+          {phase === 'running' && !cameraMode && (
+            <div className="relative mt-6 flex h-24 w-24 items-center justify-center">
+              <svg className="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 96 96">
+                <circle cx="48" cy="48" r="40" fill="none" stroke="#e8f4ff" strokeWidth="8" />
+                <motion.circle
+                  cx="48"
+                  cy="48"
+                  r="40"
+                  fill="none"
+                  stroke="#ff5fa8"
+                  strokeWidth="8"
+                  strokeLinecap="round"
+                  strokeDasharray={2 * Math.PI * 40}
+                  animate={{ strokeDashoffset: 2 * Math.PI * 40 * (1 - pct) }}
+                  transition={{ duration: 0.4, ease: 'linear' }}
+                />
+              </svg>
+              <span className="text-2xl font-extrabold text-brand-navy">{remaining}</span>
+            </div>
+          )}
+
+          {cameraMode && <p className="mt-4 text-center text-xs text-brand-navy/40">{t('neurogym.cameraInstruction')}</p>}
+        </motion.div>
+      </div>
     </ExerciseShell>
   )
 }
