@@ -15,22 +15,19 @@ services:
         value: https://sandar-soyleydi-api.onrender.com
 
   # Backend for the progress module (parent/therapist accounts, child progress).
-  # Needs a paid plan ("starter" or higher) — Render disks aren't available on the
-  # free instance type. Without the disk, data/db.json resets on every redeploy.
+  # Free plan: no persistent disk, so data/db.json (server/db.js) resets on every
+  # redeploy and the service sleeps after ~15 min idle (first request after that
+  # takes 30-60s to wake up). Fine for a low-traffic/low-budget deploy; switch
+  # `plan` to "starter" and add a `disk:` block (see git history) if real
+  # persistence is ever needed.
   - type: web
     name: sandar-soyleydi-api
     env: node
-    plan: starter
+    plan: free
     rootDir: server
     buildCommand: npm install
     startCommand: npm start
-    disk:
-      name: sandar-soyleydi-data
-      mountPath: /data
-      sizeGB: 1
     envVars:
-      - key: DATA_DIR
-        value: /data
       # Set these in the Render dashboard (don't commit real credentials) —
       # otherwise the therapist account seeds with the dev defaults from
       # server/index.js, which anyone could read in this repo.
