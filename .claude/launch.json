@@ -6,6 +6,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev", "--", "--port", "5173", "--strictPort"],
       "port": 5173
+    },
+    {
+      "name": "sandar-soyleydi-api",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start", "--prefix", "server"],
+      "port": 8787
     }
   ]
 }

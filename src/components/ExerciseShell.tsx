@@ -17,6 +17,8 @@ interface ExerciseShellProps {
   feedback?: { status: FeedbackStatus; message: string }
   children: ReactNode
   actions?: ReactNode
+  /** Hide the instruction's browser-TTS listen button — for exercises that already play real recorded audio of their own. */
+  hideListenButton?: boolean
 }
 
 export default function ExerciseShell({
@@ -28,6 +30,7 @@ export default function ExerciseShell({
   feedback,
   children,
   actions,
+  hideListenButton,
 }: ExerciseShellProps) {
   const { t, language, sound } = useSettings()
   const { supported, hasVoice, speak } = useSpeech(language)
@@ -66,17 +69,19 @@ export default function ExerciseShell({
 
         <div className="mt-5 flex items-start gap-3 rounded-2xl bg-white/85 p-4 shadow-sm sm:p-5">
           <p className="flex-1 text-sm font-semibold text-brand-navy sm:text-base">{instruction}</p>
-          <button
-            onClick={() => speak(instruction)}
-            disabled={!supported}
-            aria-label={t('shell.listen')}
-            title={supported ? t('shell.listen') : t('speech.unavailable')}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-skylight text-brand-navy transition-transform hover:scale-110 active:scale-95 disabled:opacity-40"
-          >
-            <Volume2 className="h-5 w-5" />
-          </button>
+          {!hideListenButton && (
+            <button
+              onClick={() => speak(instruction)}
+              disabled={!supported}
+              aria-label={t('shell.listen')}
+              title={supported ? t('shell.listen') : t('speech.unavailable')}
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-skylight text-brand-navy transition-transform hover:scale-110 active:scale-95 disabled:opacity-40"
+            >
+              <Volume2 className="h-5 w-5" />
+            </button>
+          )}
         </div>
-        {supported && !hasVoice && (
+        {!hideListenButton && supported && !hasVoice && (
           <p className="mt-1 text-center text-[11px] text-brand-navy/40">{t('speech.unavailable')}</p>
         )}
 

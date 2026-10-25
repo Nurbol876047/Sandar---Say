@@ -1,0 +1,339 @@
+[
+  {
+    "id": "a", "text": "А", "type": "letter", "speak": "А әрпі", "emoji": "🍎",
+    "words": [
+      { "id": "alma", "text": "алма", "type": "word", "emoji": "🍎" },
+      { "id": "ana", "text": "ана", "type": "word", "emoji": "👩" },
+      { "id": "at", "text": "ат", "type": "word", "emoji": "🐎" },
+      { "id": "ayu", "text": "аю", "type": "word", "emoji": "🐻" }
+    ]
+  },
+  {
+    "id": "ae", "text": "Ә", "type": "letter", "speak": "Ә әрпі", "emoji": "👵",
+    "words": [
+      { "id": "azhe", "text": "әже", "type": "word", "emoji": "👵" },
+      { "id": "ake", "text": "әке", "type": "word", "emoji": "👨" },
+      { "id": "alem", "text": "әлем", "type": "word", "emoji": "🌍" },
+      { "id": "an", "text": "ән", "type": "word", "emoji": "🎵" }
+    ]
+  },
+  {
+    "id": "b", "text": "Б", "type": "letter", "speak": "Б әрпі", "emoji": "👶",
+    "words": [
+      { "id": "bala", "text": "бала", "type": "word", "emoji": "👶" },
+      { "id": "balyq", "text": "балық", "type": "word", "emoji": "🐟" },
+      { "id": "baqa", "text": "бақа", "type": "word", "emoji": "🐸" },
+      { "id": "bori", "text": "бөрі", "type": "word", "emoji": "🐺" }
+    ]
+  },
+  {
+    "id": "v", "text": "В", "type": "letter", "speak": "В әрпі", "emoji": "🚃",
+    "words": [
+      { "id": "vagon", "text": "вагон", "type": "word", "emoji": "🚃" },
+      { "id": "velosiped", "text": "велосипед", "type": "word", "emoji": "🚲" },
+      { "id": "vinograd", "text": "виноград", "type": "word", "emoji": "🍇" }
+    ]
+  },
+  {
+    "id": "g", "text": "Г", "type": "letter", "speak": "Г әрпі", "emoji": "🌸",
+    "words": [
+      { "id": "gul", "text": "гүл", "type": "word", "emoji": "🌸" },
+      { "id": "gazet", "text": "газет", "type": "word", "emoji": "📰" },
+      { "id": "gitara", "text": "гитара", "type": "word", "emoji": "🎸" }
+    ]
+  },
+  {
+    "id": "gh", "text": "Ғ", "type": "letter", "speak": "Ғ әрпі", "emoji": "🧑‍🔬",
+    "words": [
+      { "id": "ghalym", "text": "ғалым", "type": "word", "emoji": "🧑‍🔬" },
+      { "id": "ghimarat", "text": "ғимарат", "type": "word", "emoji": "🏢" },
+      { "id": "ghasyr", "text": "ғасыр", "type": "word", "emoji": "⏳" }
+    ]
+  },
+  {
+    "id": "d", "text": "Д", "type": "letter", "speak": "Д әрпі", "emoji": "🧑‍🤝‍🧑",
+    "words": [
+      { "id": "dos", "text": "дос", "type": "word", "emoji": "🧑‍🤝‍🧑" },
+      { "id": "dapter", "text": "дәптер", "type": "word", "emoji": "📓" },
+      { "id": "dala", "text": "дала", "type": "word", "emoji": "🌾" },
+      { "id": "dop", "text": "доп", "type": "word", "emoji": "⚽" }
+    ]
+  },
+  {
+    "id": "e", "text": "Е", "type": "letter", "speak": "Е әрпі", "emoji": "🐐",
+    "words": [
+      { "id": "eshki", "text": "ешкі", "type": "word", "emoji": "🐐" },
+      { "id": "ertegi", "text": "ертегі", "type": "word", "emoji": "📖" },
+      { "id": "eki", "text": "екі", "type": "word", "emoji": "2️⃣" }
+    ]
+  },
+  {
+    "id": "yo", "text": "Ё", "type": "letter", "speak": "Ё әрпі", "emoji": "🎄",
+    "words": [
+      { "id": "yolka", "text": "ёлка", "type": "word", "emoji": "🎄" },
+      { "id": "yozh", "text": "ёж", "type": "word", "emoji": "🦔" }
+    ]
+  },
+  {
+    "id": "zh", "text": "Ж", "type": "letter", "speak": "Ж әрпі", "emoji": "⭐",
+    "words": [
+      { "id": "zhuldyz", "text": "жұлдыз", "type": "word", "emoji": "⭐" },
+      { "id": "zhapyraq", "text": "жапырақ", "type": "word", "emoji": "🍃" },
+      { "id": "zhylan", "text": "жылан", "type": "word", "emoji": "🐍" },
+      { "id": "zhanbyr", "text": "жаңбыр", "type": "word", "emoji": "🌧️" }
+    ]
+  },
+  {
+    "id": "z", "text": "З", "type": "letter", "speak": "З әрпі", "emoji": "📦",
+    "words": [
+      { "id": "zat", "text": "зат", "type": "word", "emoji": "📦" },
+      { "id": "zakir", "text": "зәкір", "type": "word", "emoji": "⚓" },
+      { "id": "zertkhana", "text": "зертхана", "type": "word", "emoji": "🔬" }
+    ]
+  },
+  {
+    "id": "i", "text": "И", "type": "letter", "speak": "И әрпі", "emoji": "👷",
+    "words": [
+      { "id": "inzhener", "text": "инженер", "type": "word", "emoji": "👷" },
+      { "id": "institut", "text": "институт", "type": "word", "emoji": "🏫" },
+      { "id": "ine", "text": "ине", "type": "word", "emoji": "🪡" }
+    ]
+  },
+  {
+    "id": "iy", "text": "Й", "type": "letter", "speak": "Й әрпі", "emoji": "🧪",
+    "words": [
+      { "id": "yod", "text": "йод", "type": "word", "emoji": "🧪" },
+      { "id": "yoga", "text": "йога", "type": "word", "emoji": "🧘" }
+    ]
+  },
+  {
+    "id": "k", "text": "К", "type": "letter", "speak": "К әрпі", "emoji": "📖",
+    "words": [
+      { "id": "kitap", "text": "кітап", "type": "word", "emoji": "📖" },
+      { "id": "kun", "text": "күн", "type": "word", "emoji": "☀️" },
+      { "id": "kese", "text": "кесе", "type": "word", "emoji": "☕" },
+      { "id": "kilt", "text": "кілт", "type": "word", "emoji": "🔑" }
+    ]
+  },
+  {
+    "id": "q", "text": "Қ", "type": "letter", "speak": "Қ әрпі", "emoji": "🦢",
+    "words": [
+      { "id": "qaz", "text": "қаз", "type": "word", "emoji": "🦢" },
+      { "id": "qoyan", "text": "қоян", "type": "word", "emoji": "🐰" },
+      { "id": "qalam", "text": "қалам", "type": "word", "emoji": "✏️" },
+      { "id": "qant", "text": "қант", "type": "word", "emoji": "🍬" }
+    ]
+  },
+  {
+    "id": "l", "text": "Л", "type": "letter", "speak": "Л әрпі", "emoji": "🍋",
+    "words": [
+      { "id": "limon", "text": "лимон", "type": "word", "emoji": "🍋" },
+      { "id": "lampa", "text": "лампа", "type": "word", "emoji": "💡" },
+      { "id": "laq", "text": "лақ", "type": "word", "emoji": "🐑" }
+    ]
+  },
+  {
+    "id": "m", "text": "М", "type": "letter", "speak": "М әрпі", "emoji": "🐱",
+    "words": [
+      { "id": "mysyq", "text": "мысық", "type": "word", "emoji": "🐱" },
+      { "id": "mektep", "text": "мектеп", "type": "word", "emoji": "🏫" },
+      { "id": "muz", "text": "мұз", "type": "word", "emoji": "🧊" },
+      { "id": "may", "text": "май", "type": "word", "emoji": "🧈" }
+    ]
+  },
+  {
+    "id": "n", "text": "Н", "type": "letter", "speak": "Н әрпі", "emoji": "🍞",
+    "words": [
+      { "id": "nan", "text": "нан", "type": "word", "emoji": "🍞" },
+      { "id": "nomir", "text": "нөмір", "type": "word", "emoji": "🔢" },
+      { "id": "nur", "text": "нұр", "type": "word", "emoji": "✨" }
+    ]
+  },
+  {
+    "id": "ng", "text": "Ң", "type": "letter", "speak": "Ң әрпі", "emoji": "🌅",
+    "words": [
+      { "id": "tang", "text": "таң", "type": "word", "emoji": "🌅" },
+      { "id": "oleng", "text": "өлең", "type": "word", "emoji": "📜" },
+      { "id": "manday", "text": "маңдай", "type": "word", "emoji": "🙂" }
+    ]
+  },
+  {
+    "id": "o", "text": "О", "type": "letter", "speak": "О әрпі", "emoji": "🧸",
+    "words": [
+      { "id": "oyynshyq", "text": "ойыншық", "type": "word", "emoji": "🧸" },
+      { "id": "orman", "text": "орман", "type": "word", "emoji": "🌲" },
+      { "id": "ot", "text": "от", "type": "word", "emoji": "🔥" }
+    ]
+  },
+  {
+    "id": "oe", "text": "Ө", "type": "letter", "speak": "Ө әрпі", "emoji": "🍑",
+    "words": [
+      { "id": "orik", "text": "өрік", "type": "word", "emoji": "🍑" },
+      { "id": "ozen", "text": "өзен", "type": "word", "emoji": "🏞️" },
+      { "id": "oner", "text": "өнер", "type": "word", "emoji": "🎨" },
+      { "id": "ormekshi", "text": "өрмекші", "type": "word", "emoji": "🕷️" }
+    ]
+  },
+  {
+    "id": "p", "text": "П", "type": "letter", "speak": "П әрпі", "emoji": "🐘",
+    "words": [
+      { "id": "pil", "text": "піл", "type": "word", "emoji": "🐘" },
+      { "id": "pyshaq", "text": "пышақ", "type": "word", "emoji": "🔪" },
+      { "id": "poyyz", "text": "пойыз", "type": "word", "emoji": "🚂" }
+    ]
+  },
+  {
+    "id": "r", "text": "Р", "type": "letter", "speak": "Р әрпі", "emoji": "🌹",
+    "words": [
+      { "id": "raushan", "text": "раушан", "type": "word", "emoji": "🌹" },
+      { "id": "raketa", "text": "ракета", "type": "word", "emoji": "🚀" },
+      { "id": "rakhmet", "text": "рахмет", "type": "word", "emoji": "🙏" }
+    ]
+  },
+  {
+    "id": "s", "text": "С", "type": "letter", "speak": "С әрпі", "emoji": "💧",
+    "words": [
+      { "id": "su", "text": "су", "type": "word", "emoji": "💧" },
+      { "id": "siyr", "text": "сиыр", "type": "word", "emoji": "🐄" },
+      { "id": "samolyot", "text": "самолет", "type": "word", "emoji": "✈️" },
+      { "id": "saghat", "text": "сағат", "type": "word", "emoji": "⏰" }
+    ]
+  },
+  {
+    "id": "t", "text": "Т", "type": "letter", "speak": "Т әрпі", "emoji": "🐫",
+    "words": [
+      { "id": "tuye", "text": "түйе", "type": "word", "emoji": "🐫" },
+      { "id": "tauyq", "text": "тауық", "type": "word", "emoji": "🐔" },
+      { "id": "tort", "text": "торт", "type": "word", "emoji": "🎂" },
+      { "id": "teledidar", "text": "теледидар", "type": "word", "emoji": "📺" }
+    ]
+  },
+  {
+    "id": "u", "text": "У", "type": "letter", "speak": "У әрпі", "emoji": "⏰",
+    "words": [
+      { "id": "uaqyt", "text": "уақыт", "type": "word", "emoji": "⏰" },
+      { "id": "uyz", "text": "уыз", "type": "word", "emoji": "🥛" }
+    ]
+  },
+  {
+    "id": "uu", "text": "Ұ", "type": "letter", "speak": "Ұ әрпі", "emoji": "✈️",
+    "words": [
+      { "id": "uya", "text": "ұя", "type": "word", "emoji": "🪹" },
+      { "id": "ushaq", "text": "ұшақ", "type": "word", "emoji": "✈️" },
+      { "id": "ustaz", "text": "ұстаз", "type": "word", "emoji": "👨‍🏫" },
+      { "id": "ult", "text": "ұлт", "type": "word", "emoji": "🏳️" }
+    ]
+  },
+  {
+    "id": "ue", "text": "Ү", "type": "letter", "speak": "Ү әрпі", "emoji": "🏠",
+    "words": [
+      { "id": "uy", "text": "үй", "type": "word", "emoji": "🏠" },
+      { "id": "uki", "text": "үкі", "type": "word", "emoji": "🦉" },
+      { "id": "ustel", "text": "үстел", "type": "word", "emoji": "🪑" },
+      { "id": "uzim", "text": "үзім", "type": "word", "emoji": "🍇" }
+    ]
+  },
+  {
+    "id": "f", "text": "Ф", "type": "letter", "speak": "Ф әрпі", "emoji": "⚽",
+    "words": [
+      { "id": "futbol", "text": "футбол", "type": "word", "emoji": "⚽" },
+      { "id": "film", "text": "фильм", "type": "word", "emoji": "🎬" },
+      { "id": "fontan", "text": "фонтан", "type": "word", "emoji": "⛲" }
+    ]
+  },
+  {
+    "id": "h", "text": "Х", "type": "letter", "speak": "Х әрпі", "emoji": "✉️",
+    "words": [
+      { "id": "khat", "text": "хат", "type": "word", "emoji": "✉️" },
+      { "id": "khalyq", "text": "халық", "type": "word", "emoji": "👨‍👩‍👧‍👦" },
+      { "id": "khor", "text": "хор", "type": "word", "emoji": "🎶" }
+    ]
+  },
+  {
+    "id": "hh", "text": "Һ", "type": "letter", "speak": "Һ әрпі", "emoji": "🔤",
+    "words": [
+      { "id": "haam", "text": "һәм", "type": "word", "emoji": "🔤" }
+    ]
+  },
+  {
+    "id": "ts", "text": "Ц", "type": "letter", "speak": "Ц әрпі", "emoji": "🎪",
+    "words": [
+      { "id": "tsirk", "text": "цирк", "type": "word", "emoji": "🎪" },
+      { "id": "tsement", "text": "цемент", "type": "word", "emoji": "🧱" },
+      { "id": "tsentr", "text": "орталық", "type": "word", "emoji": "🎯" }
+    ]
+  },
+  {
+    "id": "ch", "text": "Ч", "type": "letter", "speak": "Ч әрпі", "emoji": "🏆",
+    "words": [
+      { "id": "chempion", "text": "чемпион", "type": "word", "emoji": "🏆" },
+      { "id": "chemodan", "text": "чемодан", "type": "word", "emoji": "🧳" },
+      { "id": "chek", "text": "чек", "type": "word", "emoji": "🧾" }
+    ]
+  },
+  {
+    "id": "sh", "text": "Ш", "type": "letter", "speak": "Ш әрпі", "emoji": "🎈",
+    "words": [
+      { "id": "shar", "text": "шар", "type": "word", "emoji": "🎈" },
+      { "id": "shash", "text": "шаш", "type": "word", "emoji": "💇" },
+      { "id": "shop", "text": "шөп", "type": "word", "emoji": "🌿" },
+      { "id": "shiye", "text": "шие", "type": "word", "emoji": "🍒" }
+    ]
+  },
+  {
+    "id": "shch", "text": "Щ", "type": "letter", "speak": "Щ әрпі", "emoji": "🪥",
+    "words": [
+      { "id": "shchetka", "text": "щетка", "type": "word", "emoji": "🪥" }
+    ]
+  },
+  {
+    "id": "hard", "text": "Ъ", "type": "letter", "speak": "Қатаң белгі", "emoji": "🏢",
+    "words": [
+      { "id": "obyekt", "text": "объект", "type": "word", "emoji": "🏢" }
+    ]
+  },
+  {
+    "id": "y", "text": "Ы", "type": "letter", "speak": "Ы әрпі", "emoji": "🍽️",
+    "words": [
+      { "id": "ydys", "text": "ыдыс", "type": "word", "emoji": "🍽️" },
+      { "id": "ystyq", "text": "ыстық", "type": "word", "emoji": "🥵" },
+      { "id": "yrys", "text": "ырыс", "type": "word", "emoji": "🍀" }
+    ]
+  },
+  {
+    "id": "ii", "text": "І", "type": "letter", "speak": "І әрпі", "emoji": "👦",
+    "words": [
+      { "id": "ini", "text": "іні", "type": "word", "emoji": "👦" },
+      { "id": "ishik", "text": "ішік", "type": "word", "emoji": "🧥" },
+      { "id": "inzhu", "text": "інжу", "type": "word", "emoji": "💎" }
+    ]
+  },
+  {
+    "id": "soft", "text": "Ь", "type": "letter", "speak": "Жіңішкелік белгісі", "emoji": "🎒",
+    "words": [
+      { "id": "portfel", "text": "портфель", "type": "word", "emoji": "🎒" }
+    ]
+  },
+  {
+    "id": "ee", "text": "Э", "type": "letter", "speak": "Э әрпі", "emoji": "⚡",
+    "words": [
+      { "id": "elektr", "text": "электр", "type": "word", "emoji": "⚡" },
+      { "id": "ekran", "text": "экран", "type": "word", "emoji": "🖥️" },
+      { "id": "eskalator", "text": "эскалатор", "type": "word", "emoji": "🛗" }
+    ]
+  },
+  {
+    "id": "yu", "text": "Ю", "type": "letter", "speak": "Ю әрпі", "emoji": "👗",
+    "words": [
+      { "id": "yubka", "text": "юбка", "type": "word", "emoji": "👗" },
+      { "id": "yubiley", "text": "юбилей", "type": "word", "emoji": "🎉" }
+    ]
+  },
+  {
+    "id": "ya", "text": "Я", "type": "letter", "speak": "Я әрпі", "emoji": "📦",
+    "words": [
+      { "id": "yashchik", "text": "ящик", "type": "word", "emoji": "📦" },
+      { "id": "yanvar", "text": "январь", "type": "word", "emoji": "🗓️" }
+    ]
+  }
+]

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Calculator, CircleDot, Hand, Infinity as InfinityIcon, LayoutGrid, Play, Split, Star } from 'lucide-react'
+import { Calculator, CircleDot, Ear, Hand, Infinity as InfinityIcon, LayoutGrid, Play, Smile, Sparkles, Split, Star } from 'lucide-react'
 import type { ComponentType } from 'react'
 import type { ExerciseMeta, ExerciseProgress } from '../types'
 import { useSettings } from '../context/SettingsContext'
@@ -11,6 +11,9 @@ const ICONS: Record<string, ComponentType<{ className?: string }>> = {
   hand: Hand,
   'layout-grid': LayoutGrid,
   infinity: InfinityIcon,
+  smile: Smile,
+  sparkles: Sparkles,
+  ear: Ear,
 }
 
 interface ExerciseCardProps {
@@ -30,8 +33,13 @@ export default function ExerciseCard({ meta, progress, onStart }: ExerciseCardPr
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.45, delay: meta.order * 0.04 }}
       whileHover={{ y: -6 }}
-      className={`group relative flex flex-col overflow-hidden rounded-3xl ${meta.theme.bg} p-5 shadow-[0_8px_24px_-8px_rgba(32,58,135,0.25)] ring-1 ring-white/60 transition-shadow hover:shadow-[0_16px_32px_-12px_rgba(32,58,135,0.35)] sm:p-6`}
+      className={`group relative flex flex-col overflow-hidden rounded-3xl ${meta.theme.bg} p-5 shadow-[0_8px_24px_-8px_rgba(32,58,135,0.25)] ring-2 ring-white/80 transition-shadow hover:shadow-[0_18px_36px_-12px_rgba(32,58,135,0.4)] sm:p-6`}
     >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full opacity-20 blur-sm"
+        style={{ background: 'radial-gradient(circle, #ffffff, transparent 70%)' }}
+      />
       <div className="flex items-start justify-between">
         <span className={`flex h-9 w-9 items-center justify-center rounded-full text-sm font-extrabold text-white shadow ${meta.theme.badge}`}>
           {meta.order}
@@ -59,7 +67,7 @@ export default function ExerciseCard({ meta, progress, onStart }: ExerciseCardPr
         </span>
         <button
           onClick={() => onStart(meta.id)}
-          className="flex items-center gap-1.5 rounded-full bg-brand-navy px-4 py-2 text-sm font-bold text-white shadow-md transition-transform hover:scale-105 active:scale-95 sm:px-5"
+          className="flex items-center gap-1.5 rounded-full bg-gradient-to-r from-brand-purple to-brand-magenta px-4 py-2 text-sm font-bold text-white shadow-md transition-transform hover:scale-105 active:scale-95 sm:px-5"
         >
           <Play className="h-4 w-4 fill-white" />
           {progress?.completed ? t('exercise.restart') : t('exercise.start')}

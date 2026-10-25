@@ -16,8 +16,16 @@ export default function HomePage({ onStartExercise }: { onStartExercise: (id: st
         {t('home.exercises.heading')}
       </h2>
 
+      <h3 className="mb-4 text-lg font-extrabold text-brand-navy/80">{t('category.count')}</h3>
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {EXERCISES.map((meta) => (
+        {EXERCISES.filter((e) => e.category === 'count').map((meta) => (
+          <ExerciseCard key={meta.id} meta={meta} progress={progress.exercises[meta.id]} onStart={onStartExercise} />
+        ))}
+      </div>
+
+      <h3 className="mb-4 mt-8 text-lg font-extrabold text-brand-navy/80">{t('category.speech')}</h3>
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {EXERCISES.filter((e) => e.category === 'speech').map((meta) => (
           <ExerciseCard key={meta.id} meta={meta} progress={progress.exercises[meta.id]} onStart={onStartExercise} />
         ))}
       </div>

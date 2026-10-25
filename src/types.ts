@@ -18,12 +18,20 @@ export type ExerciseId =
   | 'fingers'
   | 'composition'
   | 'infinity'
+  | 'articulation'
+  | 'neurogym'
+  | 'sound-rl'
+  | 'sound-sh'
+  | 'sound-nn'
 
 export type Difficulty = 'easy' | 'medium'
+
+export type ExerciseCategory = 'count' | 'speech'
 
 export interface ExerciseMeta {
   id: ExerciseId
   order: number
+  category: ExerciseCategory
   titleKey: TranslationKey
   descKey: TranslationKey
   difficulty: Difficulty

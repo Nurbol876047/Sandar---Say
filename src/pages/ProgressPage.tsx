@@ -15,7 +15,7 @@ function formatDate(iso: string | null, lang: 'kk' | 'ru'): string {
 
 export default function ProgressPage() {
   const { t, language } = useSettings()
-  const { progress, totalStars, completedCount, clearProgress } = useProgress()
+  const { progress, totalStars, completedCount, clearProgress, synced } = useProgress()
   const [confirmOpen, setConfirmOpen] = useState(false)
 
   const entries = Object.values(progress.exercises).filter((e): e is ExerciseProgress => !!e)
@@ -87,16 +87,18 @@ export default function ProgressPage() {
         })}
       </div>
 
-      <div className="mt-10 flex justify-center">
-        <button
-          onClick={() => setConfirmOpen(true)}
-          disabled={!hasAny}
-          className="flex items-center gap-2 rounded-full bg-white/80 px-5 py-3 text-sm font-bold text-brand-navy/70 shadow-sm transition-transform hover:scale-105 active:scale-95 disabled:opacity-30"
-        >
-          <Trash2 className="h-4 w-4" />
-          {t('progress.clearBtn')}
-        </button>
-      </div>
+      {!synced && (
+        <div className="mt-10 flex justify-center">
+          <button
+            onClick={() => setConfirmOpen(true)}
+            disabled={!hasAny}
+            className="flex items-center gap-2 rounded-full bg-white/80 px-5 py-3 text-sm font-bold text-brand-navy/70 shadow-sm transition-transform hover:scale-105 active:scale-95 disabled:opacity-30"
+          >
+            <Trash2 className="h-4 w-4" />
+            {t('progress.clearBtn')}
+          </button>
+        </div>
+      )}
 
       <Modal open={confirmOpen} onClose={() => setConfirmOpen(false)}>
         <h3 className="text-lg font-extrabold text-brand-navy">{t('progress.clearConfirm.title')}</h3>

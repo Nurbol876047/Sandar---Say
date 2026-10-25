@@ -14,8 +14,16 @@ export default function ExercisesPage({ onStartExercise }: { onStartExercise: (i
         {t('home.hero.description')}
       </p>
 
-      <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {EXERCISES.map((meta) => (
+      <h2 className="mb-5 mt-10 text-xl font-extrabold text-brand-navy sm:text-2xl">{t('category.count')}</h2>
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {EXERCISES.filter((e) => e.category === 'count').map((meta) => (
+          <ExerciseCard key={meta.id} meta={meta} progress={progress.exercises[meta.id]} onStart={onStartExercise} />
+        ))}
+      </div>
+
+      <h2 className="mb-5 mt-10 text-xl font-extrabold text-brand-navy sm:text-2xl">{t('category.speech')}</h2>
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {EXERCISES.filter((e) => e.category === 'speech').map((meta) => (
           <ExerciseCard key={meta.id} meta={meta} progress={progress.exercises[meta.id]} onStart={onStartExercise} />
         ))}
       </div>

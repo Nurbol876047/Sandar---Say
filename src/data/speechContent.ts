@@ -1,0 +1,98 @@
+import type { TranslationKey } from './translations'
+
+export interface FollowMove {
+  id: string
+  emoji: string
+  nameKey: TranslationKey
+  descKey: TranslationKey
+  seconds: number
+}
+
+export const ARTICULATION_MOVES: FollowMove[] = [
+  { id: 'clock', emoji: '🕐', nameKey: 'move.clock.name', descKey: 'move.clock.desc', seconds: 8 },
+  { id: 'horse', emoji: '🐴', nameKey: 'move.horse.name', descKey: 'move.horse.desc', seconds: 8 },
+  { id: 'jam', emoji: '🍯', nameKey: 'move.jam.name', descKey: 'move.jam.desc', seconds: 8 },
+  { id: 'mushroom', emoji: '🍄', nameKey: 'move.mushroom.name', descKey: 'move.mushroom.desc', seconds: 8 },
+]
+
+export const NEUROGYM_MOVES: FollowMove[] = [
+  { id: 'crosscrawl', emoji: '🚶', nameKey: 'move.crosscrawl.name', descKey: 'move.crosscrawl.desc', seconds: 10 },
+  { id: 'earnose', emoji: '👃', nameKey: 'move.earnose.name', descKey: 'move.earnose.desc', seconds: 10 },
+  { id: 'butterfly', emoji: '🦋', nameKey: 'move.butterfly.name', descKey: 'move.butterfly.desc', seconds: 10 },
+  { id: 'infinity8', emoji: '♾️', nameKey: 'move.infinity8.name', descKey: 'move.infinity8.desc', seconds: 10 },
+]
+
+export type SoundOption = 'A' | 'B'
+
+export interface SoundWord {
+  text: string
+  emoji: string
+  correct: SoundOption
+}
+
+export interface SoundPair {
+  id: string
+  labelA: string
+  labelB: string
+  titleKey: TranslationKey
+  descKey: TranslationKey
+  /** Short mnemonic from a speech therapist that explains how to tell the two sounds apart, shown during the exercise. */
+  hintKey?: TranslationKey
+  words: SoundWord[]
+}
+
+export const SOUND_PAIRS: Record<'rl' | 'sh' | 'nn', SoundPair> = {
+  rl: {
+    id: 'rl',
+    labelA: 'Р',
+    labelB: 'Л',
+    titleKey: 'ex.soundRl.title',
+    descKey: 'ex.soundRl.desc',
+    words: [
+      { text: 'қарбыз', emoji: '🍉', correct: 'A' },
+      { text: 'алма', emoji: '🍎', correct: 'B' },
+      { text: 'орындық', emoji: '🪑', correct: 'A' },
+      { text: 'жылан', emoji: '🐍', correct: 'B' },
+      { text: 'арыстан', emoji: '🦁', correct: 'A' },
+      { text: 'балық', emoji: '🐟', correct: 'B' },
+      { text: 'торғай', emoji: '🐦', correct: 'A' },
+      { text: 'гүл', emoji: '🌸', correct: 'B' },
+    ],
+  },
+  sh: {
+    id: 'sh',
+    labelA: 'С',
+    labelB: 'Ш',
+    titleKey: 'ex.soundSh.title',
+    descKey: 'ex.soundSh.desc',
+    hintKey: 'soundsort.hint.sh',
+    words: [
+      { text: 'су', emoji: '💧', correct: 'A' },
+      { text: 'шана', emoji: '🛷', correct: 'B' },
+      { text: 'құс', emoji: '🐤', correct: 'A' },
+      { text: 'шар', emoji: '🎈', correct: 'B' },
+      { text: 'сағат', emoji: '⏰', correct: 'A' },
+      { text: 'ағаш', emoji: '🌳', correct: 'B' },
+      { text: 'сиыр', emoji: '🐄', correct: 'A' },
+      { text: 'шөп', emoji: '🌿', correct: 'B' },
+    ],
+  },
+  nn: {
+    id: 'nn',
+    labelA: 'Н',
+    labelB: 'Ң',
+    titleKey: 'ex.soundNn.title',
+    descKey: 'ex.soundNn.desc',
+    hintKey: 'soundsort.hint.nn',
+    words: [
+      { text: 'нан', emoji: '🍞', correct: 'A' },
+      { text: 'таң', emoji: '🌅', correct: 'B' },
+      { text: 'ана', emoji: '👩', correct: 'A' },
+      { text: 'мың', emoji: '🔢', correct: 'B' },
+      { text: 'күн', emoji: '☀️', correct: 'A' },
+      { text: 'аң', emoji: '🦌', correct: 'B' },
+      { text: 'ән', emoji: '🎵', correct: 'A' },
+      { text: 'қоңырау', emoji: '🔔', correct: 'B' },
+    ],
+  },
+}

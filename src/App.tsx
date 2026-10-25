@@ -1,12 +1,15 @@
 import { useState } from 'react'
 import { SettingsProvider } from './context/SettingsContext'
 import { ProgressProvider } from './context/ProgressContext'
+import { AuthProvider } from './context/AuthContext'
 import AppShell, { type Page } from './components/AppShell'
 import HomePage from './pages/HomePage'
 import ExercisesPage from './pages/ExercisesPage'
 import ProgressPage from './pages/ProgressPage'
 import SettingsPage from './pages/SettingsPage'
 import ExercisePage from './pages/ExercisePage'
+import AuthPage from './pages/AuthPage'
+import TherapistDashboardPage from './pages/TherapistDashboardPage'
 import type { ExerciseId } from './types'
 
 type Route = { page: Page } | { page: 'exercise'; id: ExerciseId }
@@ -41,6 +44,8 @@ function AppContent() {
       {route.page === 'exercises' && <ExercisesPage onStartExercise={startExercise} />}
       {route.page === 'progress' && <ProgressPage />}
       {route.page === 'settings' && <SettingsPage />}
+      {route.page === 'auth' && <AuthPage onNavigateTherapist={() => navigate('therapist')} />}
+      {route.page === 'therapist' && <TherapistDashboardPage />}
     </AppShell>
   )
 }
@@ -48,9 +53,11 @@ function AppContent() {
 export default function App() {
   return (
     <SettingsProvider>
-      <ProgressProvider>
-        <AppContent />
-      </ProgressProvider>
+      <AuthProvider>
+        <ProgressProvider>
+          <AppContent />
+        </ProgressProvider>
+      </AuthProvider>
     </SettingsProvider>
   )
 }

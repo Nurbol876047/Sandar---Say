@@ -9,32 +9,64 @@ export default function AppBackground() {
       >
         <defs>
           <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#bfe6ff" />
-            <stop offset="55%" stopColor="#e8f4ff" />
+            <stop offset="0%" stopColor="#9fd9ff" />
+            <stop offset="50%" stopColor="#dff0ff" />
             <stop offset="100%" stopColor="#fffdf8" />
           </linearGradient>
           <linearGradient id="mountainsFar" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#c7dcf6" />
-            <stop offset="100%" stopColor="#aecdf0" />
+            <stop offset="0%" stopColor="#c6a8f5" />
+            <stop offset="100%" stopColor="#a8c3f5" />
           </linearGradient>
           <linearGradient id="mountainsNear" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#9fc6ef" />
-            <stop offset="100%" stopColor="#8fd3ff" />
+            <stop offset="0%" stopColor="#6fc4ff" />
+            <stop offset="100%" stopColor="#35d6c8" />
           </linearGradient>
           <linearGradient id="hills" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#bdeec7" />
+            <stop offset="0%" stopColor="#8be8a8" />
             <stop offset="100%" stopColor="#cff5d5" />
           </linearGradient>
           <linearGradient id="lake" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#bfe6ff" />
-            <stop offset="100%" stopColor="#8fd3ff" />
+            <stop offset="100%" stopColor="#35b8ff" />
+          </linearGradient>
+          <linearGradient id="rainbowArc" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#ff5fa8" />
+            <stop offset="20%" stopColor="#ff8a65" />
+            <stop offset="40%" stopColor="#ffd23f" />
+            <stop offset="60%" stopColor="#3fe0a5" />
+            <stop offset="80%" stopColor="#35d6c8" />
+            <stop offset="100%" stopColor="#a86bff" />
           </linearGradient>
         </defs>
 
         <rect width="1440" height="900" fill="url(#sky)" />
 
-        <circle cx="1240" cy="120" r="64" fill="#fff0b8" opacity="0.9" />
-        <circle cx="1240" cy="120" r="88" fill="#fff0b8" opacity="0.35" />
+        <path
+          d="M -80 430 A 560 560 0 0 1 1520 430"
+          fill="none"
+          stroke="url(#rainbowArc)"
+          strokeWidth="26"
+          strokeLinecap="round"
+          opacity="0.55"
+        />
+
+        <circle cx="1240" cy="120" r="64" fill="#ffd23f" opacity="0.95" />
+        <circle cx="1240" cy="120" r="92" fill="#ffb13c" opacity="0.3" />
+        {[
+          [205, 40, '#ff5fa8'],
+          [60, 230, '#a86bff'],
+          [1120, 230, '#3fe0a5'],
+          [40, 520, '#ff8a65'],
+          [1380, 480, '#35d6c8'],
+        ].map(([cx, cy, color], i) => (
+          <g key={`spark-${i}`} className="animate-pulse-soft" style={{ transformOrigin: `${cx}px ${cy}px`, animationDelay: `${i * 0.4}s` }}>
+            <path
+              d={`M${cx} ${Number(cy) - 14} L${Number(cx) + 4} ${Number(cy) - 4} L${Number(cx) + 14} ${cy} L${Number(cx) + 4} ${Number(cy) + 4} L${cx} ${Number(cy) + 14} L${Number(cx) - 4} ${Number(cy) + 4} L${Number(cx) - 14} ${cy} L${Number(cx) - 4} ${Number(cy) - 4} Z`}
+              fill={color as string}
+              opacity="0.8"
+            />
+          </g>
+        ))}
 
         <g className="animate-drift" opacity="0.85">
           {[
@@ -78,11 +110,11 @@ export default function AppBackground() {
 
         <g>
           {[
-            [90, 820, '#ffdce8'],
-            [160, 850, '#fff0b8'],
-            [230, 810, '#e9dfff'],
-            [1300, 830, '#ffdce8'],
-            [1370, 800, '#cff5d5'],
+            [90, 820, '#ff5fa8'],
+            [160, 850, '#ffd23f'],
+            [230, 810, '#a86bff'],
+            [1300, 830, '#ff8a65'],
+            [1370, 800, '#3fe0a5'],
           ].map(([cx, cy, color], i) => (
             <g key={i} transform={`translate(${cx} ${cy})`}>
               <line x1="0" y1="0" x2="0" y2="18" stroke="#8fcf8f" strokeWidth="3" />

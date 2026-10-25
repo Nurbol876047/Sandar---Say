@@ -9,14 +9,24 @@ export default function HeroSection({ onStart }: { onStart: () => void }) {
   const { t, sound } = useSettings()
 
   return (
-    <section className="relative rounded-[2rem] bg-white/55 p-6 shadow-[0_12px_40px_-14px_rgba(32,58,135,0.35)] ring-1 ring-white/70 sm:p-10">
-      <div className="grid items-center gap-8 md:grid-cols-[1.1fr_0.9fr]">
+    <section className="relative overflow-hidden rounded-[2rem] bg-white/60 p-6 shadow-[0_12px_40px_-14px_rgba(32,58,135,0.35)] ring-2 ring-white/80 sm:p-10">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-16 -top-20 h-64 w-64 rounded-full opacity-40 blur-2xl"
+        style={{ background: 'radial-gradient(circle, #ffd23f, transparent 70%)' }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-24 -right-10 h-72 w-72 rounded-full opacity-30 blur-2xl"
+        style={{ background: 'radial-gradient(circle, #a86bff, transparent 70%)' }}
+      />
+      <div className="relative grid items-center gap-8 md:grid-cols-[1.1fr_0.9fr]">
         <div>
           <motion.h1
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-4xl font-extrabold leading-tight text-brand-navy sm:text-5xl"
+            className="rainbow-text text-4xl font-extrabold leading-tight sm:text-5xl"
           >
             {t('home.hero.title')}
           </motion.h1>
@@ -45,7 +55,7 @@ export default function HeroSection({ onStart }: { onStart: () => void }) {
               playClick(sound)
               onStart()
             }}
-            className="mt-7 flex items-center gap-2 rounded-full bg-brand-navy px-7 py-3.5 text-base font-extrabold text-white shadow-lg shadow-brand-navy/20 transition-transform hover:scale-105 active:scale-95 sm:text-lg"
+            className="mt-7 flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-coral via-brand-magenta to-brand-purple px-7 py-3.5 text-base font-extrabold text-white shadow-lg shadow-brand-purple/30 transition-transform hover:scale-105 active:scale-95 sm:text-lg"
           >
             <PlayCircle className="h-6 w-6" />
             {t('home.hero.cta')}

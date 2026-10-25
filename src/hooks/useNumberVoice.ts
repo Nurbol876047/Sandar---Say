@@ -8,10 +8,10 @@ function isVoiceable(n: number): boolean {
 }
 
 /**
- * Plays pre-recorded Kazakh number words (0–10, synthesized once offline with
- * facebook/mms-tts-kaz) so every number a child needs to find has a reliable
- * spoken form — unlike the browser's speechSynthesis, which rarely ships a
- * Kazakh voice at all.
+ * Plays pre-recorded Kazakh number words (0–10, synthesized with Edge TTS's
+ * kk-KZ-AigulNeural voice — see scripts/generate-kk-audio-edge-tts.py) so every
+ * number a child needs to find has a reliable spoken form — unlike the browser's
+ * speechSynthesis, which rarely ships a Kazakh voice at all.
  */
 export function useNumberVoice() {
   const { sound } = useSettings()

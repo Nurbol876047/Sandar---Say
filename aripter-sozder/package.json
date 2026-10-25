@@ -1,0 +1,14 @@
+{
+  "name": "aripter-sozder",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Балаларға арналған қазақ әліпбиі мен сөздерді үйрену тренажёрі",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "generate-audio": "node scripts/generate-audio.js"
+  },
+  "dependencies": {
+    "edge-tts-universal": "^1.4.0"
+  }
+}

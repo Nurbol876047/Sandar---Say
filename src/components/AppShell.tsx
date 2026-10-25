@@ -1,23 +1,17 @@
 import type { ReactNode } from 'react'
-import { ClipboardList, Home as HomeIcon, Settings as SettingsIcon, Star, Trophy } from 'lucide-react'
+import { ClipboardList, Home as HomeIcon, LogIn, Settings as SettingsIcon, Star, Stethoscope, Trophy, UserRound } from 'lucide-react'
 import { useSettings } from '../context/SettingsContext'
 import { useProgress } from '../context/ProgressContext'
+import { useAuth } from '../context/AuthContext'
 import AppBackground from './AppBackground'
 
-export type Page = 'home' | 'exercises' | 'progress' | 'settings'
+export type Page = 'home' | 'exercises' | 'progress' | 'settings' | 'auth' | 'therapist'
 
 interface NavItem {
   page: Page
   icon: typeof HomeIcon
   labelKey: Parameters<ReturnType<typeof useSettings>['t']>[0]
 }
-
-const NAV_ITEMS: NavItem[] = [
-  { page: 'home', icon: HomeIcon, labelKey: 'nav.home' },
-  { page: 'exercises', icon: ClipboardList, labelKey: 'nav.exercises' },
-  { page: 'progress', icon: Trophy, labelKey: 'nav.progress' },
-  { page: 'settings', icon: SettingsIcon, labelKey: 'nav.settings' },
-]
 
 export default function AppShell({
   page,
@@ -30,6 +24,16 @@ export default function AppShell({
 }) {
   const { t, language, setLanguage } = useSettings()
   const { totalStars } = useProgress()
+  const { user } = useAuth()
+
+  const NAV_ITEMS: NavItem[] = [
+    { page: 'home', icon: HomeIcon, labelKey: 'nav.home' },
+    { page: 'exercises', icon: ClipboardList, labelKey: 'nav.exercises' },
+    { page: 'progress', icon: Trophy, labelKey: 'nav.progress' },
+    ...(user?.role === 'therapist' ? [{ page: 'therapist' as const, icon: Stethoscope, labelKey: 'nav.therapist' as const }] : []),
+    { page: 'settings', icon: SettingsIcon, labelKey: 'nav.settings' },
+    { page: 'auth', icon: user ? UserRound : LogIn, labelKey: user ? 'nav.account' : 'nav.login' },
+  ]
 
   return (
     <div className="relative min-h-screen">
@@ -48,7 +52,9 @@ export default function AppShell({
               key={p}
               onClick={() => onNavigate(p)}
               className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm font-bold transition-colors ${
-                page === p ? 'bg-brand-navy text-white shadow-md' : 'text-brand-navy/80 hover:bg-brand-skylight'
+                page === p
+                  ? 'bg-gradient-to-r from-brand-purple to-brand-magenta text-white shadow-md'
+                  : 'text-brand-navy/80 hover:bg-brand-skylight'
               }`}
             >
               <Icon className="h-5 w-5 shrink-0" />
@@ -57,9 +63,9 @@ export default function AppShell({
           ))}
         </nav>
 
-        <div className="mt-4 flex items-center justify-between rounded-2xl bg-brand-yellow/60 px-3 py-2 text-sm font-bold text-brand-navy">
+        <div className="mt-4 flex items-center justify-between rounded-2xl bg-gradient-to-r from-brand-sun/70 to-brand-orange/50 px-3 py-2 text-sm font-bold text-brand-navy">
           <span className="flex items-center gap-1.5">
-            <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
+            <Star className="h-4 w-4 fill-amber-500 text-amber-500" />
             {totalStars}
           </span>
           <LangSwitch language={language} setLanguage={setLanguage} compact />
@@ -74,8 +80,8 @@ export default function AppShell({
           <span className="text-sm font-extrabold text-brand-navy">{t('app.name')}</span>
         </button>
         <div className="flex items-center gap-2">
-          <span className="flex items-center gap-1 rounded-full bg-brand-yellow/70 px-2.5 py-1 text-xs font-bold text-brand-navy">
-            <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+          <span className="flex items-center gap-1 rounded-full bg-gradient-to-r from-brand-sun/80 to-brand-orange/60 px-2.5 py-1 text-xs font-bold text-brand-navy">
+            <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" />
             {totalStars}
           </span>
           <LangSwitch language={language} setLanguage={setLanguage} compact />
@@ -98,7 +104,7 @@ export default function AppShell({
             key={p}
             onClick={() => onNavigate(p)}
             className={`flex flex-col items-center gap-0.5 rounded-xl px-3 py-1.5 text-[11px] font-bold ${
-              page === p ? 'text-brand-navy' : 'text-brand-navy/45'
+              page === p ? 'text-brand-magenta' : 'text-brand-navy/45'
             }`}
           >
             <Icon className={`h-5 w-5 ${page === p ? 'fill-brand-skylight' : ''}`} />
