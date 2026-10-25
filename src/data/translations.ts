@@ -296,8 +296,6 @@ const dict = {
     ru: 'Сервер просыпается после простоя, подождите немного…',
   },
   'auth.iAmTherapist': { kk: 'Мен логопедпін', ru: 'Я логопед' },
-  'auth.inviteCode': { kk: 'Логопед коды', ru: 'Код логопеда' },
-  'auth.inviteCodePlaceholder': { kk: 'Әкімшіден алған құпия код', ru: 'Секретный код от администратора' },
   'auth.roleParent': { kk: 'Ата-ана', ru: 'Родитель' },
   'auth.roleTherapist': { kk: 'Логопед', ru: 'Логопед' },
   'auth.myChildren': { kk: 'Менің балаларым', ru: 'Мои дети' },

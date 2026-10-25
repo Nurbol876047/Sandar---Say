@@ -117,7 +117,6 @@ export default function AuthPage({ onNavigateTherapist }: { onNavigateTherapist:
   const [name, setName] = useState('')
   const [childName, setChildName] = useState('')
   const [isTherapist, setIsTherapist] = useState(false)
-  const [inviteCode, setInviteCode] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
   const [waking, setWaking] = useState(false)
@@ -133,7 +132,7 @@ export default function AuthPage({ onNavigateTherapist }: { onNavigateTherapist:
       if (mode === 'login') {
         await login(email, password)
       } else {
-        await register(email, password, name, isTherapist ? '' : childName, isTherapist ? inviteCode : undefined)
+        await register(email, password, name, isTherapist ? '' : childName, isTherapist ? 'therapist' : 'parent')
       }
     } catch (err) {
       setError(err instanceof ApiError ? err.message : t('auth.networkError'))
@@ -214,18 +213,6 @@ export default function AuthPage({ onNavigateTherapist }: { onNavigateTherapist:
               />
               {t('auth.iAmTherapist')}
             </label>
-          )}
-
-          {mode === 'register' && isTherapist && (
-            <Field label={t('auth.inviteCode')}>
-              <input
-                value={inviteCode}
-                onChange={(e) => setInviteCode(e.target.value)}
-                required
-                className={inputClass}
-                placeholder={t('auth.inviteCodePlaceholder')}
-              />
-            </Field>
           )}
 
           {waking && !error && (

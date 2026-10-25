@@ -4,11 +4,6 @@ import { db } from './db.js'
 import { hashPassword, verifyPassword } from './auth.js'
 
 const PORT = process.env.PORT || 8787
-// Whoever registers with this code (as the "I'm a therapist" option on the signup
-// form) gets the therapist role, which can see every parent's children — so this
-// must be set to a real secret in production (Render dashboard env var), shared
-// only with the actual logoped(s). Unset = therapist self-registration is disabled.
-const THERAPIST_INVITE_CODE = process.env.THERAPIST_INVITE_CODE || null
 
 const app = express()
 app.use(cors())
@@ -46,7 +41,7 @@ function childBelongsToParent(childId, parentId) {
 // --- auth ---
 
 app.post('/api/auth/register', (req, res) => {
-  const { email, password, name, childName, inviteCode } = req.body ?? {}
+  const { email, password, name, childName, role: requestedRole } = req.body ?? {}
   if (!email || !password || String(password).length < 6) {
     return res.status(400).json({ error: 'Email және кемінде 6 таңбалы құпиясөз қажет' })
   }
@@ -54,13 +49,9 @@ app.post('/api/auth/register', (req, res) => {
     return res.status(409).json({ error: 'Бұл email тіркелген' })
   }
 
-  let role = 'parent'
-  if (inviteCode) {
-    if (!THERAPIST_INVITE_CODE || inviteCode !== THERAPIST_INVITE_CODE) {
-      return res.status(403).json({ error: 'Логопед коды қате' })
-    }
-    role = 'therapist'
-  }
+  // Demo project (contest showcase, not real patient data) — anyone can pick
+  // either role at signup, no invite/approval step.
+  const role = requestedRole === 'therapist' ? 'therapist' : 'parent'
 
   const { salt, passwordHash } = hashPassword(password)
   const user = db.createUser({ email, name: name || '', passwordHash, salt, role })

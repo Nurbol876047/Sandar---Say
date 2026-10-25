@@ -18,6 +18,8 @@ services:
         value: https://sandar-say-api.onrender.com
 
   # Backend for the progress module (parent/therapist accounts, child progress).
+  # Demo/contest project, not a real clinic — registration lets anyone pick
+  # either role, no invite code or approval step.
   # Free plan: no persistent disk, so data/db.json (server/db.js) resets on every
   # redeploy and the service sleeps after ~15 min idle (first request after that
   # takes 30-60s to wake up). Fine for a low-traffic/low-budget deploy; switch
@@ -30,10 +32,3 @@ services:
     rootDir: server
     buildCommand: npm install
     startCommand: npm start
-    envVars:
-      # Whoever registers with this code (the "I'm a therapist" checkbox on
-      # signup) becomes a therapist — which can see every parent's children.
-      # Set a real secret here and share it only with the actual logoped(s).
-      # Leaving it unset disables therapist self-registration entirely.
-      - key: THERAPIST_INVITE_CODE
-        sync: false

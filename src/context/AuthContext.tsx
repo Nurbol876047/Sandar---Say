@@ -15,7 +15,7 @@ interface AuthContextValue {
   loading: boolean
   setActiveChildId: (id: string | null) => void
   addChild: (name: string) => Promise<void>
-  register: (email: string, password: string, name: string, childName: string, inviteCode?: string) => Promise<void>
+  register: (email: string, password: string, name: string, childName: string, role?: 'parent' | 'therapist') => Promise<void>
   login: (email: string, password: string) => Promise<void>
   logout: () => Promise<void>
 }
@@ -60,8 +60,8 @@ export function AuthProvider({ children: reactChildren }: { children: ReactNode 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.token])
 
-  const register = useCallback(async (email: string, password: string, name: string, childName: string, inviteCode?: string) => {
-    const res = await api.register({ email, password, name, childName, inviteCode })
+  const register = useCallback(async (email: string, password: string, name: string, childName: string, role?: 'parent' | 'therapist') => {
+    const res = await api.register({ email, password, name, childName, role })
     setUser(res.user)
     setKids(res.children)
     setState({ token: res.token, activeChildId: res.children[0]?.id ?? null })
