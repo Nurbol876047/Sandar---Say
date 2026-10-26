@@ -30,6 +30,13 @@ export default function HomePage({ onStartExercise }: { onStartExercise: (id: st
         ))}
       </div>
 
+      <h3 className="mb-4 mt-8 text-lg font-extrabold text-brand-navy/80">{t('category.sounds')}</h3>
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {EXERCISES.filter((e) => e.category === 'sounds').map((meta) => (
+          <ExerciseCard key={meta.id} meta={meta} progress={progress.exercises[meta.id]} onStart={onStartExercise} />
+        ))}
+      </div>
+
       <p className="mt-12 flex items-center justify-center gap-2 text-center text-sm font-semibold text-brand-navy/50">
         ⭐ {t('app.tagline')}
       </p>

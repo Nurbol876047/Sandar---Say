@@ -1,4 +1,5 @@
 import type { TranslationKey } from './translations'
+import type { LipShape, TonguePosition } from '../components/MouthDiagram'
 
 export interface FollowMove {
   id: string
@@ -7,6 +8,8 @@ export interface FollowMove {
   descKey: TranslationKey
   seconds: number
   video?: string
+  /** Sound letter this move trains (e.g. 'Л') — shows a mouth-position diagram next to the move. */
+  soundLetter?: string
 }
 
 export const ARTICULATION_MOVES: FollowMove[] = [
@@ -17,9 +20,20 @@ export const ARTICULATION_MOVES: FollowMove[] = [
 ]
 
 export const SOUND_LU_MOVES: FollowMove[] = [
-  { id: 'steamship', emoji: '🚢', nameKey: 'move.steamship.name', descKey: 'move.steamship.desc', seconds: 8 },
-  { id: 'wolfhowl', emoji: '🐺', nameKey: 'move.wolfhowl.name', descKey: 'move.wolfhowl.desc', seconds: 8 },
+  { id: 'steamship', emoji: '🚢', nameKey: 'move.steamship.name', descKey: 'move.steamship.desc', seconds: 8, soundLetter: 'Л' },
+  { id: 'wolfhowl', emoji: '🐺', nameKey: 'move.wolfhowl.name', descKey: 'move.wolfhowl.desc', seconds: 8, soundLetter: 'У' },
 ]
+
+/** Mouth-position preset per sound letter, for the small diagrams shown in the sound-pair exercises. */
+export const SOUND_MOUTH_PRESETS: Record<string, { tongue: TonguePosition; lips: LipShape }> = {
+  Р: { tongue: 'teeth', lips: 'neutral' },
+  Л: { tongue: 'teeth', lips: 'smile' },
+  С: { tongue: 'flat', lips: 'smile' },
+  Ш: { tongue: 'flat', lips: 'round' },
+  Н: { tongue: 'teeth', lips: 'neutral' },
+  Ң: { tongue: 'palate', lips: 'neutral' },
+  У: { tongue: 'flat', lips: 'round' },
+}
 
 export const BREATHING_MOVES: FollowMove[] = [
   { id: 'bubbles', emoji: '🫧', nameKey: 'move.bubbles.name', descKey: 'move.bubbles.desc', seconds: 8, video: '/videos/breathing/bubbles.mp4' },
@@ -60,6 +74,7 @@ export const SOUND_PAIRS: Record<'rl' | 'sh' | 'nn', SoundPair> = {
     labelB: 'Л',
     titleKey: 'ex.soundRl.title',
     descKey: 'ex.soundRl.desc',
+    hintKey: 'soundsort.hint.rl',
     words: [
       { text: 'қарбыз', emoji: '🍉', correct: 'A' },
       { text: 'алма', emoji: '🍎', correct: 'B' },

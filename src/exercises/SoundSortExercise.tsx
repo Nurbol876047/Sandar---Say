@@ -6,8 +6,9 @@ import { useSettings } from '../context/SettingsContext'
 import { useWordVoice } from '../hooks/useWordVoice'
 import { playCorrect, playTry } from '../utils/sound'
 import { shuffle } from '../utils/math'
+import MouthDiagram from '../components/MouthDiagram'
 import type { ExerciseResult } from '../types'
-import type { SoundOption, SoundPair } from '../data/speechContent'
+import { SOUND_MOUTH_PRESETS, type SoundOption, type SoundPair } from '../data/speechContent'
 
 export default function SoundSortExercise({
   pair,
@@ -110,6 +111,19 @@ export default function SoundSortExercise({
           <Volume2 className="h-6 w-6 shrink-0 text-brand-navy/40 sm:h-7 sm:w-7" />
         </button>
         <p className="text-sm font-semibold text-brand-navy/50">{t('soundsort.question')}</p>
+
+        <div className="mt-1 flex items-center gap-4 rounded-2xl bg-white/70 px-4 py-2 shadow-sm">
+          {([pair.labelA, pair.labelB] as const).map((letter) => {
+            const preset = SOUND_MOUTH_PRESETS[letter]
+            return preset ? (
+              <div key={letter} className="flex flex-col items-center gap-0.5">
+                <MouthDiagram tongue={preset.tongue} lips={preset.lips} label={letter} className="h-14 w-14" />
+                <span className="text-sm font-extrabold text-brand-navy">{letter}</span>
+              </div>
+            ) : null
+          })}
+        </div>
+
         {pair.hintKey && (
           <div className="mt-1 flex max-w-sm items-start gap-2 rounded-2xl bg-brand-sun/20 px-4 py-3 text-left text-xs font-semibold text-brand-navy/80 sm:text-sm">
             <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />

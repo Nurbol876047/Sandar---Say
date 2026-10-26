@@ -1,10 +1,12 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import type { ExerciseId, ExerciseProgress, ProgressState } from '../types'
+import type { ActivityState, ExerciseId, ExerciseProgress, ProgressState } from '../types'
 import { loadJSON, removeJSON, saveJSON } from '../utils/storage'
+import { computeStreak, dateKey } from '../utils/date'
 import { useAuth } from './AuthContext'
 import { api, type ApiProgress } from '../lib/api'
 
 const DEFAULT_PROGRESS: ProgressState = { exercises: {} }
+const DEFAULT_ACTIVITY: ActivityState = { dates: [] }
 
 function computeStars(correct: number, total: number): number {
   if (total <= 0) return 0
@@ -35,6 +37,10 @@ interface ProgressContextValue {
   clearProgress: () => void
   totalStars: number
   completedCount: number
+  /** Calendar days (YYYY-MM-DD) with at least one completed exercise — always local, not synced to the backend. */
+  activityDates: string[]
+  /** Consecutive practice days ending today (or yesterday, until today's practice is logged). */
+  streak: number
   /** true when progress is synced to the backend for a logged-in parent's active child (not the anonymous local copy) */
   synced: boolean
 }
@@ -47,10 +53,15 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
 
   const [localProgress, setLocalProgress] = useState<ProgressState>(() => loadJSON('progress', DEFAULT_PROGRESS))
   const [serverProgress, setServerProgress] = useState<ProgressState>(DEFAULT_PROGRESS)
+  const [activity, setActivity] = useState<ActivityState>(() => loadJSON('activity', DEFAULT_ACTIVITY))
 
   useEffect(() => {
     saveJSON('progress', localProgress)
   }, [localProgress])
+
+  useEffect(() => {
+    saveJSON('activity', activity)
+  }, [activity])
 
   useEffect(() => {
     if (!synced || !token || !activeChildId) return
@@ -68,6 +79,9 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
 
   const recordResult = useCallback(
     (id: ExerciseId, correct: number, total: number) => {
+      const today = dateKey(new Date())
+      setActivity((prev) => (prev.dates.includes(today) ? prev : { dates: [...prev.dates, today] }))
+
       if (synced && token && activeChildId) {
         api
           .postProgress(token, { childId: activeChildId, exerciseId: id, correct, total })
@@ -103,16 +117,19 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
   const clearProgress = useCallback(() => {
     setLocalProgress(DEFAULT_PROGRESS)
     removeJSON('progress')
+    setActivity(DEFAULT_ACTIVITY)
+    removeJSON('activity')
   }, [])
 
   const active = synced ? serverProgress : localProgress
 
   const totalStars = useMemo(() => Object.values(active.exercises).reduce((sum, e) => sum + (e?.stars ?? 0), 0), [active])
   const completedCount = useMemo(() => Object.values(active.exercises).filter((e) => e?.completed).length, [active])
+  const streak = useMemo(() => computeStreak(activity.dates), [activity])
 
   const value = useMemo<ProgressContextValue>(
-    () => ({ progress: active, recordResult, clearProgress, totalStars, completedCount, synced }),
-    [active, recordResult, clearProgress, totalStars, completedCount, synced],
+    () => ({ progress: active, recordResult, clearProgress, totalStars, completedCount, activityDates: activity.dates, streak, synced }),
+    [active, recordResult, clearProgress, totalStars, completedCount, activity, streak, synced],
   )
 
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>

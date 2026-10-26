@@ -5,17 +5,18 @@ import { useProgress } from '../context/ProgressContext'
 import { EXERCISES } from '../data/exercises'
 import StatCard from '../components/StatCard'
 import Modal from '../components/Modal'
+import PracticeCalendar from '../components/PracticeCalendar'
+import { formatFullDate } from '../utils/date'
 import type { ExerciseProgress } from '../types'
 
 function formatDate(iso: string | null, lang: 'kk' | 'ru'): string {
   if (!iso) return '—'
-  const d = new Date(iso)
-  return d.toLocaleDateString(lang === 'kk' ? 'kk-KZ' : 'ru-RU', { day: '2-digit', month: 'long', year: 'numeric' })
+  return formatFullDate(new Date(iso), lang)
 }
 
 export default function ProgressPage() {
   const { t, language } = useSettings()
-  const { progress, totalStars, completedCount, clearProgress, synced } = useProgress()
+  const { progress, totalStars, completedCount, activityDates, streak, clearProgress, synced } = useProgress()
   const [confirmOpen, setConfirmOpen] = useState(false)
 
   const entries = Object.values(progress.exercises).filter((e): e is ExerciseProgress => !!e)
@@ -34,6 +35,16 @@ export default function ProgressPage() {
         <StatCard icon={<Star className="h-6 w-6" />} label={t('progress.correctAnswers')} value={sumCorrect} />
         <StatCard icon={<Percent className="h-6 w-6" />} label={t('progress.successRate')} value={`${successRate}%`} />
         <StatCard icon={<Award className="h-6 w-6" />} label={t('progress.totalStars')} value={totalStars} />
+      </div>
+
+      <div className="mt-6">
+        <PracticeCalendar
+          activityDates={activityDates}
+          lang={language}
+          title={t('progress.calendar.title')}
+          streak={streak}
+          streakLabel={t('progress.calendar.streak', { count: streak })}
+        />
       </div>
 
       {!hasAny ? (

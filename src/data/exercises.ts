@@ -103,7 +103,7 @@ export const EXERCISES: ExerciseMeta[] = [
   {
     id: 'sound-rl',
     order: 10,
-    category: 'speech',
+    category: 'sounds',
     titleKey: 'ex.soundRl.title',
     descKey: 'ex.soundRl.desc',
     difficulty: 'medium',
@@ -114,7 +114,7 @@ export const EXERCISES: ExerciseMeta[] = [
   {
     id: 'sound-sh',
     order: 11,
-    category: 'speech',
+    category: 'sounds',
     titleKey: 'ex.soundSh.title',
     descKey: 'ex.soundSh.desc',
     difficulty: 'medium',
@@ -125,7 +125,7 @@ export const EXERCISES: ExerciseMeta[] = [
   {
     id: 'sound-nn',
     order: 12,
-    category: 'speech',
+    category: 'sounds',
     titleKey: 'ex.soundNn.title',
     descKey: 'ex.soundNn.desc',
     difficulty: 'medium',
@@ -136,7 +136,7 @@ export const EXERCISES: ExerciseMeta[] = [
   {
     id: 'sound-lu',
     order: 13,
-    category: 'speech',
+    category: 'sounds',
     titleKey: 'ex.soundLu.title',
     descKey: 'ex.soundLu.desc',
     difficulty: 'medium',
@@ -147,7 +147,7 @@ export const EXERCISES: ExerciseMeta[] = [
   {
     id: 'nn-roots',
     order: 14,
-    category: 'speech',
+    category: 'sounds',
     titleKey: 'ex.nnRoots.title',
     descKey: 'ex.nnRoots.desc',
     difficulty: 'medium',

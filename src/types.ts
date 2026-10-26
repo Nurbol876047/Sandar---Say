@@ -29,7 +29,7 @@ export type ExerciseId =
 
 export type Difficulty = 'easy' | 'medium'
 
-export type ExerciseCategory = 'count' | 'speech'
+export type ExerciseCategory = 'count' | 'speech' | 'sounds'
 
 export interface ExerciseMeta {
   id: ExerciseId
@@ -58,6 +58,11 @@ export interface ExerciseProgress {
 
 export interface ProgressState {
   exercises: Partial<Record<ExerciseId, ExerciseProgress>>
+}
+
+/** Local-only log of calendar days (YYYY-MM-DD) the child did at least one exercise, for the practice calendar/streak. */
+export interface ActivityState {
+  dates: string[]
 }
 
 export interface ExerciseResult {
